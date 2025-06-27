@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "target": "ES2020", // Buen rendimiento moderno
+        "module": "CommonJS", // Para usar en Node.js
+        "lib": [
+            "ES2020"
+        ], // Qué APIs están disponibles
+        "moduleResolution": "node", // Cómo se resuelven los módulos
+        "esModuleInterop": true, // Permite importar módulos CommonJS (como Express)
+        "forceConsistentCasingInFileNames": true, // Evita errores por mayúsculas/minúsculas
+        "strict": true, // Activa todas las comprobaciones estrictas
+        "skipLibCheck": true, // No revisa los tipos de node_modules
+        "outDir": "dist", // Carpeta donde se guarda el JS compilado
+        "rootDir": "src", // Carpeta base de tu código fuente
+        "resolveJsonModule": true, // Permite importar JSON
+        "allowSyntheticDefaultImports": true // Permite usar `import express from "express"`
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+}
