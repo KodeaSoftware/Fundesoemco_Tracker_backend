@@ -48,4 +48,4 @@ export class RecursosHumanosRepository implements RecursosHumanosPort {
             e.getDataValue('password')
         ));
     }
-} 
+}
