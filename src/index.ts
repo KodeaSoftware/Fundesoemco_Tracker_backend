@@ -4,10 +4,17 @@ import 'dotenv/config';
 import EmployeeRoute from "./infrastructure/routes/Employee.route";
 
 const app = express()
-app.use(EmployeeRoute)
 
-// Middleware para express 
+// Middleware para express - DEBE ir ANTES de las rutas
 app.use(express.json())
+
+// Ruta de prueba
+app.get("/", (req, res) => {
+    res.json({ message: "Servidor funcionando correctamente" });
+});
+
+// Rutas
+app.use(EmployeeRoute)
 
 const PORT = process.env.PORT || 3000;
 
