@@ -19,20 +19,8 @@ RecursosHumanosModel.init({
         type: DataTypes.STRING,
         allowNull: false,
     },
-    departamento: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
     cargo: {
         type: DataTypes.STRING,
-        allowNull: false,
-    },
-    contrato: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    proyecto: {
-        type: DataTypes.ARRAY(DataTypes.STRING),
         allowNull: false,
     },
     correo: {

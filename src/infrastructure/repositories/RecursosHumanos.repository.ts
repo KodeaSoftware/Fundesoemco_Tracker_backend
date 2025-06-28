@@ -28,10 +28,7 @@ export class RecursosHumanosRepository implements RecursosHumanosPort {
         const [updated] = await RecursosHumanosModel.update({
             cedula: recursosHumanos.cedula,
             nombre: recursosHumanos.nombre,
-            departamento: recursosHumanos.departamento,
             cargo: recursosHumanos.cargo,
-            contrato: recursosHumanos.contrato,
-            proyecto: recursosHumanos.proyecto,
             correo: recursosHumanos.correo,
             password: recursosHumanos.password
         }, {
@@ -45,10 +42,7 @@ export class RecursosHumanosRepository implements RecursosHumanosPort {
         return recursosHumanos.map(e => new RecursosHumanos(
             e.getDataValue('cedula'),
             e.getDataValue('nombre'),
-            e.getDataValue('departamento'),
             e.getDataValue('cargo'),
-            e.getDataValue('contrato'),
-            e.getDataValue('proyecto'),
             e.getDataValue('id'),
             e.getDataValue('correo'),
             e.getDataValue('password')
