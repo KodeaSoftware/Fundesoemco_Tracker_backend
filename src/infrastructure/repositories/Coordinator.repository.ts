@@ -11,7 +11,8 @@ export class CoordinatorRepository implements CoordinatorPort {
 
     async crearCoordinator(coordinator: Coordinator): Promise<boolean> {
         try {
-            await CoordinatorModel.create({ ...coordinator });
+            const { id, ...coordinatorData } = coordinator;
+            await CoordinatorModel.create(coordinatorData);
             return true;
         } catch (error) {
             return false;
@@ -32,7 +33,7 @@ export class CoordinatorRepository implements CoordinatorPort {
             contrato: coordinator.contrato,
             proyecto: coordinator.proyecto,
             correo: coordinator.correo,
-            contrasena: coordinator.password
+            password: coordinator.password
 
         }, {
             where: { id: coordinator.id },
