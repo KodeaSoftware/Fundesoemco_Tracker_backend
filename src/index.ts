@@ -1,8 +1,10 @@
 import express from "express"
 import { sequelize } from "./infrastructure/persistence/database";
 import 'dotenv/config';
+import EmployeeRoute from "./infrastructure/routes/Employee.route";
 
 const app = express()
+app.use(EmployeeRoute)
 
 // Middleware para express 
 app.use(express.json())
