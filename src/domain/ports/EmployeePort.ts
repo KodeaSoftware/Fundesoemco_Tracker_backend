@@ -9,9 +9,11 @@
 import { Employee } from '../models/Employee';
 
 export interface EmployeePort {
-    verificarDuplicados(cedula: number): Promise<boolean>;
+    verificarPorCedula(cedula: number): Promise<boolean>;
     crearEmpleado(empleado: Employee): Promise<boolean>;
     eliminarEmpleado(id: string): Promise<boolean>;
     editarEmpleado(empleado: Employee): Promise<boolean>;
-    traerEmpleados(): Promise<[]>;
+    traerEmpleados(): Promise<Employee[]>;
 }
+
+
