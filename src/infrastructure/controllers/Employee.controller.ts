@@ -13,6 +13,6 @@ export async function createEmployee(req: Request, res: Response){
     } catch (err) {
         res.status(500).send({message: "Internal server error" + err})
     }
-}
+    }
 
 
