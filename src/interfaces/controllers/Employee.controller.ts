@@ -16,4 +16,13 @@ export async function createEmployee(req: Request, res: Response) {
     }
 }
 
+export async function getAllEmployee(req: Request, res: Response) {
+    try {
+        const employeeList = await getAllEmployeeUseCase()
+        if (!employeeList) throw new Error("Failded to create a new Employee")
+        res.status(200).json(employeeList)
+    } catch (err) {
+        res.status(500).send({ message: "Internal server error" + err })
+    }
+}
 
