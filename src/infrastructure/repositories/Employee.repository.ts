@@ -11,10 +11,11 @@ export class EmployeeRepository implements EmployeePort {
 
     async crearEmpleado(empleado: Employee): Promise<boolean> {
         try {
-            const { id, ...employeeData } = empleado
-            await EmployeeModel.create(employeeData);
+            const { ...EmployeeData } = empleado
+            await EmployeeModel.create(EmployeeData);
             return true;
         } catch (error) {
+            throw new Error("error crear empleado" + error)
             return false;
         }
     }

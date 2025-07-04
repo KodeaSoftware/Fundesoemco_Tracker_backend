@@ -20,11 +20,12 @@ export class EmployeeAdapter implements EmployeePort {
         return this.repository.eliminarEmpleado(id)
     }
 
-    crearEmpleado(empleado: Employee): Promise<boolean> {
-        return this.crearEmpleado(empleado)
+    async crearEmpleado(empleado: Employee): Promise<boolean> {
+
+        return await this.repository.crearEmpleado(empleado)
     }
 
     traerEmpleados(): Promise<Employee[]> {
-        return this.traerEmpleados()
+        return this.repository.traerEmpleados()
     }
 }
