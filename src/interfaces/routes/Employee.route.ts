@@ -1,4 +1,4 @@
-import { createEmployee } from "../controllers/Employee.controller";
+import { createEmployee } from "../../interfaces/controllers/Employee.controller";
 import { Router } from "express";
 const EmployeeRoute = Router()
 

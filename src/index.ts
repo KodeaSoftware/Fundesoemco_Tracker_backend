@@ -1,7 +1,7 @@
 import express from "express"
 import { sequelize } from "./infrastructure/persistence/database";
 import 'dotenv/config';
-import EmployeeRoute from "./infrastructure/routes/Employee.route";
+import EmployeeRoute from "./interfaces/routes/Employee.route";
 
 const app = express()
 
