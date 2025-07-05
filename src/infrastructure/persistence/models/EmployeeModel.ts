@@ -27,6 +27,10 @@ EmployeeModel.init({
         type: DataTypes.STRING,
         allowNull: false,
     },
+    telefono: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
     contrato: {
         type: DataTypes.STRING,
         allowNull: false,
