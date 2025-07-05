@@ -48,6 +48,7 @@ export class EmployeeRepository implements EmployeePort {
             e.getDataValue('cargo'),
             e.getDataValue('contrato'),
             e.getDataValue('proyecto'),
+            e.getDataValue('telefono'),
             e.getDataValue('id')
         ));
     }

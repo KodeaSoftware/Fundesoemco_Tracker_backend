@@ -6,10 +6,10 @@ export class Employee {
         public nombre: string,
         public departamento: string,
         public cargo: string,
-        public telefono: number,
         public contrato: string,
         public proyecto: string[],
-        public id?: string
+        public telefono: number,
+        public id?: string,
     ) {
         this.id = id ?? uuidv4();
     }
