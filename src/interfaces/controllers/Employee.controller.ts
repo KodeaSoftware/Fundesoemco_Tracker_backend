@@ -26,3 +26,24 @@ export async function getAllEmployee(req: Request, res: Response) {
     }
 }
 
+export async function editEmployee(req: Request, res: Response) {
+    try {
+        const dataEmployee = req.body
+        const editEmployee = await editEmployeeUseCase(dataEmployee)
+        if (!editEmployee) throw new Error("Failded to edit a Employee")
+        res.status(200).json(editEmployee)
+    } catch (err) {
+        res.status(500).send({ message: "Internal server error" + err })
+    }
+}
+
+export async function deleteEmployee(req: Request, res: Response) {
+    try {
+        const idEmployee = req.params.id
+        const deleteEmployeeData = await deleteEmployeeUseCase(idEmployee)
+        if (!deleteEmployeeData) throw new Error("Failded to edit a Employee")
+        res.status(200).json(deleteEmployeeData)
+    } catch (err) {
+        res.status(500).send({ message: "Internal server error" + err })
+    }
+}
