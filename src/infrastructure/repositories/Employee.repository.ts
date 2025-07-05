@@ -31,6 +31,7 @@ export class EmployeeRepository implements EmployeePort {
             nombre: empleado.nombre,
             departamento: empleado.departamento,
             cargo: empleado.cargo,
+            telefono: empleado.telefono,
             contrato: empleado.contrato,
             proyecto: empleado.proyecto,
         }, {
