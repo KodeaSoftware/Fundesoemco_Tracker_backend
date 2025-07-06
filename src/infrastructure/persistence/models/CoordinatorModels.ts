@@ -27,10 +27,6 @@ CoordinatorModel.init({
         type: DataTypes.STRING,
         allowNull: false,
     },
-    contrato: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
     proyecto: {
         type: DataTypes.ARRAY(DataTypes.STRING),
         allowNull: false,
@@ -46,6 +42,6 @@ CoordinatorModel.init({
 }, {
     sequelize,
     modelName: 'Coordinator',
-    tableName: 'Coordinator',
+    tableName: 'coordinator',
     timestamps: false,
 });
