@@ -3,6 +3,7 @@ import cors from "cors"
 import { sequelize } from "./infrastructure/persistence/database";
 import 'dotenv/config';
 import EmployeeRoute from "./interfaces/routes/Employee.route";
+import CoordinatorRoute from "./interfaces/routes/Coordinator.route";
 
 const app = express()
 
@@ -23,6 +24,7 @@ app.get("/", (req, res) => {
 
 // Rutas
 app.use(EmployeeRoute)
+app.use(CoordinatorRoute)
 
 const PORT = process.env.PORT || 3000;
 
