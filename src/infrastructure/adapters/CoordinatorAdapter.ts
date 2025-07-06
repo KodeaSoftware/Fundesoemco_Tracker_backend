@@ -1,4 +1,4 @@
-import { Coordinator } from "../../domain/models/Coordinator";
+import { Coordinator, CoordinatorDTO } from "../../domain/models/Coordinator";
 import { CoordinatorPort } from "../../domain/ports/CoordinatorPort";
 import { CoordinatorRepository } from "../repositories/Coordinator.repository";
 
@@ -23,7 +23,12 @@ export class CoordinatorAdapter implements CoordinatorPort {
         return this.repository.eliminarCoordinator(id)
     }
 
-    traerCoordinator(): Promise<Coordinator[]> {
+    traerCoordinator(): Promise<CoordinatorDTO[]> {
         return this.repository.traerCoordinator()
     }
+
+    buscarPorEmail(correo: string): Promise<Coordinator> {
+        return this.repository.buscarPorEmail(correo)
+    }
+
 }
