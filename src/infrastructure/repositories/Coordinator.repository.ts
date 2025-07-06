@@ -1,4 +1,4 @@
-import { Coordinator } from "../../domain/models/Coordinator";
+import { Coordinator, CoordinatorDTO } from "../../domain/models/Coordinator";
 import { CoordinatorModel } from "../persistence/models/CoordinatorModels";
 import { CoordinatorPort } from "../../domain/ports/CoordinatorPort";
 
@@ -11,11 +11,12 @@ export class CoordinatorRepository implements CoordinatorPort {
 
     async crearCoordinator(coordinator: Coordinator): Promise<boolean> {
         try {
-            const { id, ...coordinatorData } = coordinator;
+            const { ...coordinatorData } = coordinator;
             await CoordinatorModel.create(coordinatorData);
+
             return true;
         } catch (error) {
-            return false;
+            return false
         }
     }
 
@@ -30,7 +31,6 @@ export class CoordinatorRepository implements CoordinatorPort {
             nombre: coordinator.nombre,
             departamento: coordinator.departamento,
             cargo: coordinator.cargo,
-            contrato: coordinator.contrato,
             proyecto: coordinator.proyecto,
             correo: coordinator.correo,
             password: coordinator.password
@@ -41,19 +41,37 @@ export class CoordinatorRepository implements CoordinatorPort {
         return updated > 0;
     }
 
-    async traerCoordinator(): Promise<Coordinator[]> {
-        const coordinator = await CoordinatorModel.findAll();
-        return coordinator.map(e => new Coordinator(
+    async traerCoordinator(): Promise<CoordinatorDTO[]> {
+        const coordinator = await CoordinatorModel.findAll({
+            attributes: { exclude: ['password'] }
+        });
+
+        return coordinator.map(e => new CoordinatorDTO(
             e.getDataValue('cedula'),
             e.getDataValue('nombre'),
             e.getDataValue('departamento'),
             e.getDataValue('cargo'),
-            e.getDataValue('contrato'),
             e.getDataValue('proyecto'),
-            e.getDataValue('id'),
             e.getDataValue('correo'),
-            e.getDataValue('password')
+            e.getDataValue('id')
         ));
     }
 
+
+    async buscarPorEmail(correo: string): Promise<Coordinator> {
+        const coordinador = await CoordinatorModel.findOne({ where: { correo } })
+        if (!coordinador) throw new Error("Coordinador no encontrado para" + correo)
+
+        return new Coordinator(
+            coordinador.getDataValue('cedula'),
+            coordinador.getDataValue('nombre'),
+            coordinador.getDataValue('departamento'),
+            coordinador.getDataValue('cargo'),
+            coordinador.getDataValue('proyecto'),
+            coordinador.getDataValue('password'),
+            coordinador.getDataValue('correo'),
+            coordinador.getDataValue('id')
+
+        );
+    }
 }
