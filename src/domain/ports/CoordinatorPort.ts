@@ -7,14 +7,15 @@
  * @param password => contraseña del coordinador
  */
 
-import { Coordinator } from "../models/Coordinator";
+import { Coordinator, CoordinatorDTO } from "../models/Coordinator";
 
 export interface CoordinatorPort {
     verificarPorCedula(cedula: number): Promise<boolean>;
     crearCoordinator(coordinator: Coordinator): Promise<boolean>;
     eliminarCoordinator(id: string): Promise<boolean>;
     editarCoordinator(coordinator: Coordinator): Promise<boolean>;
-    traerCoordinator(): Promise<Coordinator[]>;
+    traerCoordinator(): Promise<CoordinatorDTO[]>;
+    buscarPorEmail(correo: string): Promise<Coordinator>
 }
 
 
