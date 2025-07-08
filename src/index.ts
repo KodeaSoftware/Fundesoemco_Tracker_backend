@@ -4,6 +4,7 @@ import { sequelize } from "./infrastructure/persistence/database";
 import 'dotenv/config';
 import EmployeeRoute from "./interfaces/routes/Employee.route";
 import CoordinatorRoute from "./interfaces/routes/Coordinator.route";
+import auth from "./interfaces/routes/Auth.route";
 
 const app = express()
 
@@ -25,6 +26,7 @@ app.get("/", (req, res) => {
 // Rutas
 app.use(EmployeeRoute)
 app.use(CoordinatorRoute)
+app.use(auth)
 
 const PORT = process.env.PORT || 3000;
 
