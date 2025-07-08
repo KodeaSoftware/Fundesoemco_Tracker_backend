@@ -34,6 +34,6 @@ RecursosHumanosModel.init({
 }, {
     sequelize,
     modelName: 'RecursosHumanos',
-    tableName: 'recursos_humanos',
+    tableName: 'rrhh',
     timestamps: false,
 }); 
