@@ -15,4 +15,5 @@ export interface RecursosHumanosPort {
     eliminarRecursosHumanos(id: string): Promise<boolean>;
     editarRecursosHumanos(recursosHumanos: RecursosHumanos): Promise<boolean>;
     traerRecursosHumanos(): Promise<RecursosHumanos[]>;
+    buscarPorEmail(correo: string): Promise<RecursosHumanos>
 }
