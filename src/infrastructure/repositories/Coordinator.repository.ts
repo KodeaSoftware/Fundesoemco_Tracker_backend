@@ -74,4 +74,9 @@ export class CoordinatorRepository implements CoordinatorPort {
 
         );
     }
+
+    async verificarDuplicadosPorEmail(correo: string): Promise<boolean> {
+        const count = await CoordinatorModel.count({ where: { correo } });
+        return count > 0;
+    }
 }
