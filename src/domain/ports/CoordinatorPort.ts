@@ -15,7 +15,8 @@ export interface CoordinatorPort {
     eliminarCoordinator(id: string): Promise<boolean>;
     editarCoordinator(coordinator: Coordinator): Promise<boolean>;
     traerCoordinator(): Promise<CoordinatorDTO[]>;
-    buscarPorEmail(correo: string): Promise<Coordinator>
+    buscarPorEmail(correo: string): Promise<Coordinator>;
+    verificarDuplicadosPorEmail(correo: string): Promise<boolean>
 }
 
 
