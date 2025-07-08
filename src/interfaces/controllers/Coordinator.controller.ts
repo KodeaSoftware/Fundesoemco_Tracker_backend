@@ -1,6 +1,5 @@
 import { createCoordinatorUseCase } from "../../application/usecases/Coordinator/createCoordinatorUseCase";
 import { Request, Response } from "express";
-import { loginCoordinatorUseCase } from "../../application/usecases/Coordinator/loginCoordinatorUseCase";
 import { getAllCoordinatorUseCase } from "../../application/usecases/Coordinator/getAllCoordinatorUseCase";
 import { deleteCoordinatorUseCase } from "../../application/usecases/Coordinator/deleteCoordinatorUseCase";
 import { editCoordinatorUseCase } from "../../application/usecases/Coordinator/editCoordinatorUseCase";
@@ -16,18 +15,6 @@ export async function createCoordinator(req: Request, res: Response) {
         res.status(500).send({ message: "Internal server error" + err })
     }
 }
-
-export async function loginCoordinator(req: Request, res: Response) {
-    try {
-        const { correo, password } = req.body
-        const coordinatorLogin = await loginCoordinatorUseCase(correo, password)
-        if (!coordinatorLogin) throw new Error("Failded to create a new Coordinator")
-        res.status(200).json(coordinatorLogin)
-    } catch (err) {
-        res.status(500).send({ message: "Internal server error" + err })
-    }
-}
-
 
 export async function getAllCoordinator(req: Request, res: Response) {
     try {
