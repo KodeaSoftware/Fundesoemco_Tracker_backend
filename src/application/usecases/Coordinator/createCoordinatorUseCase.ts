@@ -2,17 +2,17 @@ import { CoordinatorService } from "../../services/Coordinator.serviceInstance";
 import { Coordinator } from "../../../domain/models/Coordinator";
 import bcrypt from "bcrypt"
 
-
 export async function createCoordinatorUseCase(coordinator: Coordinator) {
 
-    const { cedula } = coordinator
-    const { password } = coordinator
+    const { cedula, password, correo } = coordinator
 
     const isCreated = await CoordinatorService.verificarPorCedula(cedula)
     if (isCreated) throw new Error(`Ya existe un coordinador con la cédula ${cedula}`)
 
-    // Hashear password
+    const searchByEmail = await CoordinatorService.verificarDuplicadosPorEmail(correo)
+    if (searchByEmail) throw new Error("Ya existe una cuenta con " + correo)
 
+    // Hashear password
     const hashedPassword = await bcrypt.hash(password, 10)
     coordinator.password = hashedPassword
 
