@@ -48,4 +48,18 @@ export class RecursosHumanosRepository implements RecursosHumanosPort {
             e.getDataValue('password')
         ));
     }
+
+    async buscarPorEmail(correo: string): Promise<RecursosHumanos> {
+        const coordinador = await RecursosHumanosModel.findOne({ where: { correo } })
+        if (!coordinador) throw new Error("Coordinador no encontrado para" + correo)
+
+        return new RecursosHumanos(
+            coordinador.getDataValue('cedula'),
+            coordinador.getDataValue('nombre'),
+            coordinador.getDataValue('cargo'),
+            coordinador.getDataValue('correo'),
+            coordinador.getDataValue('password'),
+            coordinador.getDataValue('id')
+        );
+    }
 }
