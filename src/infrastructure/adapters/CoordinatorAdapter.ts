@@ -31,4 +31,7 @@ export class CoordinatorAdapter implements CoordinatorPort {
         return this.repository.buscarPorEmail(correo)
     }
 
+    verificarDuplicadosPorEmail(correo: string): Promise<boolean> {
+        return this.repository.verificarDuplicadosPorEmail(correo)
+    }
 }
