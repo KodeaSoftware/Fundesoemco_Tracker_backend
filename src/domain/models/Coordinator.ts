@@ -15,6 +15,7 @@ export class Coordinator {
 
     validarDatos(): void {
         if (!this.cedula) throw new Error("Falta cédula")
+        if (!this.password) throw new Error("Falta Contraseña")
     }
 }
 
