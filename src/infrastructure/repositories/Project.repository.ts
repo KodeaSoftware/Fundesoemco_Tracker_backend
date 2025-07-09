@@ -29,6 +29,7 @@ export class ProjectRepository implements ProjectPort {
             titulo: project.titulo,
             descripcion: project.descripcion,
             creadoEn: project.creadoEn,
+            horarios: project.horarios,
             coordinadores: project.coordinadores,
             empleadosDirectos: project.empleadosDirectos,
             contratistas: project.contratistas
@@ -44,6 +45,7 @@ export class ProjectRepository implements ProjectPort {
             p.getDataValue('titulo'),
             p.getDataValue('descripcion'),
             p.getDataValue('creadoEn'),
+            p.getDataValue('horarios'),
             p.getDataValue('coordinadores'),
             p.getDataValue('empleadosDirectos'),
             p.getDataValue('contratistas'),
@@ -54,11 +56,12 @@ export class ProjectRepository implements ProjectPort {
     async traerProjectPorId(id: string): Promise<Project | null> {
         const project = await ProjectModel.findByPk(id);
         if (!project) return null;
-        
+
         return new Project(
             project.getDataValue('titulo'),
             project.getDataValue('descripcion'),
             project.getDataValue('creadoEn'),
+            project.getDataValue('horarios'),
             project.getDataValue('coordinadores'),
             project.getDataValue('empleadosDirectos'),
             project.getDataValue('contratistas'),

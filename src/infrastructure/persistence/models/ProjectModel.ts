@@ -24,6 +24,11 @@ ProjectModel.init({
         allowNull: false,
         defaultValue: DataTypes.NOW,
     },
+    horarios: {
+        type: DataTypes.JSON,
+        allowNull: true,
+        defaultValue: {},
+    },
     coordinadores: {
         type: DataTypes.ARRAY(DataTypes.UUID),
         allowNull: true,

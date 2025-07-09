@@ -9,8 +9,6 @@ export async function createCoordinatorUseCase(coordinator: Coordinator) {
     if (!cedula) throw new Error("Falta cédula")
     if (!correo) throw new Error("Falta correo")
 
-
-
     const isCreated = await CoordinatorService.verificarPorCedula(cedula)
     if (isCreated) throw new Error(`Ya existe un coordinador con la cédula ${cedula}`)
 
