@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 export class Project {
     constructor(
         public titulo: string,
@@ -11,7 +13,9 @@ export class Project {
         public empleadosDirectos: [],
         public contratistas: [],
         public id?: string
-    ) { }
+    ) {
+        this.id = id ?? uuidv4()
+    }
     validarDatos(): void {
         if (!this.titulo) throw new Error("Falta titulo de proyecto")
     }

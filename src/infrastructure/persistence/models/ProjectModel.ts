@@ -24,7 +24,7 @@ ProjectModel.init({
         allowNull: false,
         defaultValue: DataTypes.NOW,
     },
-    horarios: {
+    jornada: {
         type: DataTypes.JSON,
         allowNull: true,
         defaultValue: {},
