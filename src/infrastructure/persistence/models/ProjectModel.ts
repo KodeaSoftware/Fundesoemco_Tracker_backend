@@ -29,21 +29,6 @@ ProjectModel.init({
         allowNull: true,
         defaultValue: {},
     },
-    coordinadores: {
-        type: DataTypes.ARRAY(DataTypes.UUID),
-        allowNull: true,
-        defaultValue: [],
-    },
-    empleadosDirectos: {
-        type: DataTypes.ARRAY(DataTypes.UUID),
-        allowNull: true,
-        defaultValue: [],
-    },
-    contratistas: {
-        type: DataTypes.ARRAY(DataTypes.UUID),
-        allowNull: true,
-        defaultValue: [],
-    }
 }, {
     sequelize,
     modelName: 'Project',
