@@ -9,9 +9,6 @@ export class Project {
             horaEntrada: string,
             horaSalida: string
         },
-        public coordinadores: [],
-        public empleadosDirectos: [],
-        public contratistas: [],
         public id?: string
     ) {
         this.id = id ?? uuidv4()
