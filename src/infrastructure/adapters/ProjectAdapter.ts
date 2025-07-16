@@ -7,7 +7,7 @@ export class ProjectAdapter implements ProjectPort {
     // Instancia del repositorio para el adapter
     private repository = new ProjectRepository()
 
-    verificarPorTitulo(titulo: string): Promise<boolean> {
+    verificarPorTitulo(titulo: string): Promise<string | null> {
         return this.repository.verificarPorTitulo(titulo)
     }
 
