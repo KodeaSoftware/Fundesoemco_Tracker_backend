@@ -1,4 +1,7 @@
 import { EmployeeService } from "../../services/Employee.serviceInstance";
+import { ProjectAssignamentService } from "../../services/ProjectAssignament.serviceInstance";
+import { ProjectService } from "../../services/Project.serviceInstance";
+
 import { Employee } from "../../../domain/models/Employee";
 
 
