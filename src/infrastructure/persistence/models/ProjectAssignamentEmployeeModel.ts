@@ -16,6 +16,6 @@ ProjectAssignamentEmployeeModel.init({
 }, {
     sequelize,
     modelName: 'ProjectEmployee',
-    tableName: 'Project-employee',
+    tableName: 'project-employee',
     timestamps: false,
 }); 
