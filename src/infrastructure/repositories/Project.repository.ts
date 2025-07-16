@@ -4,9 +4,12 @@ import { ProjectPort } from "../../domain/ports/ProjectPort";
 
 export class ProjectRepository implements ProjectPort {
 
-    async verificarPorTitulo(titulo: string): Promise<boolean> {
-        const count = await ProjectModel.count({ where: { titulo } });
-        return count > 0;
+    async verificarPorTitulo(titulo: string): Promise<string | null> {
+        const project = await ProjectModel.findOne({ where: { titulo } });
+        if (project) {
+            return project.getDataValue('id');
+        }
+        return null;
     }
 
     async crearProject(project: Project): Promise<boolean> {
