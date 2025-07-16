@@ -4,7 +4,7 @@ import { ProjectAssignamentEmployeePort } from "../../domain/ports/ProjectAssign
 
 export class ProjectAssignamentEmployeeRepository implements ProjectAssignamentEmployeePort {
 
-    async asignarProyecto(idProject: string, idEmployee: string): Promise<boolean> {
+    async asignarProyecto(idProject: string | null, idEmployee: string | undefined): Promise<boolean> {
         try {
             await ProjectAssignamentEmployeeModel.create({
                 idProject,
