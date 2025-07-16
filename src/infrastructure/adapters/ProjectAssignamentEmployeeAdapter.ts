@@ -13,7 +13,7 @@ export class ProjectAssignamentEmployeeAdapter implements ProjectAssignamentEmpl
     listarEmpleadosDeProyecto(idPorject: string): Promise<ProjectAssignamentEmployee[]> {
         return this.repository.listarEmpleadosDeProyecto(idPorject)
     }
-    asignarProyecto(idPorject: string, idEmployee: string): Promise<boolean> {
+    asignarProyecto(idPorject: string | null, idEmployee: string | undefined): Promise<boolean> {
         return this.repository.asignarProyecto(idPorject, idEmployee)
     }
 }
