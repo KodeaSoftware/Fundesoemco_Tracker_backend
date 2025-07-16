@@ -12,7 +12,7 @@
 import { Project } from "../models/Project";
 
 export interface ProjectPort {
-    verificarPorTitulo(titulo: string): Promise<boolean>;
+    verificarPorTitulo(titulo: string): Promise<string | null>;
     crearProject(project: Project): Promise<boolean>;
     eliminarProject(id: string): Promise<boolean>;
     editarProject(project: Project): Promise<boolean>;
