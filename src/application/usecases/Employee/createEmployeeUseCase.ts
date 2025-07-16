@@ -13,6 +13,11 @@ export async function createEmployeeUseCase(employee: Employee) {
     const employeeCreated = await EmployeeService.crearEmpleado(employee)
     if (!employeeCreated) throw new Error("Error al crear el empleado")
 
+    const idProject = await ProjectService.verificarPorTitulo(employee.proyecto[0])
+
+    const idEmployee = employee.id
+    ProjectAssignamentService.asignarProyecto(idProject, idEmployee)
+
 
     return {
         status: "Created",
