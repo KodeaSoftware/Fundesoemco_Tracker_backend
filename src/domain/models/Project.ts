@@ -16,4 +16,4 @@ export class Project {
     validarDatos(): void {
         if (!this.titulo) throw new Error("Falta titulo de proyecto")
     }
-}
+} 
