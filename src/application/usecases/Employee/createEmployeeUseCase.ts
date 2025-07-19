@@ -16,10 +16,11 @@ export async function createEmployeeUseCase(employee: Employee) {
     const idProject = await ProjectService.verificarPorTitulo(employee.proyecto[0])
 
     const idEmployee = employee.id
-    ProjectAssignamentService.asignarProyecto(idProject, idEmployee)
+    const projectAssignmanet = await ProjectAssignamentService.asignarProyecto(idProject, idEmployee)
 
 
     return {
+        projectAssignament: projectAssignmanet,
         status: "Created",
         id: employee.id,
         cc: employee.cedula,
