@@ -16,7 +16,7 @@ ProjectModel.init({
         unique: true,
     },
     descripcion: {
-        type: DataTypes.TEXT,
+        type: DataTypes.STRING,
         allowNull: false,
     },
     creadoEn: {
@@ -32,6 +32,6 @@ ProjectModel.init({
 }, {
     sequelize,
     modelName: 'Project',
-    tableName: 'Project',
+    tableName: 'project',
     timestamps: false,
 }); 
