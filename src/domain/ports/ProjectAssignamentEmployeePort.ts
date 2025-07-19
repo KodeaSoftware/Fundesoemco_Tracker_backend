@@ -6,7 +6,7 @@
 import { ProjectAssignamentEmployee } from "../models/ProjectAssignamentEmployee";
 
 export interface ProjectAssignamentEmployeePort {
-    asignarProyecto(idPorject: string | null, idEmployee: string | undefined): Promise<boolean>
+    asignarProyecto(ProjectAssignament: ProjectAssignamentEmployee): Promise<boolean>
     eliminarEmpleadoDeProyecto(idEmployee: string): Promise<boolean>
     listarEmpleadosDeProyecto(idPorject: string): Promise<ProjectAssignamentEmployee[]>
 } 
