@@ -5,6 +5,8 @@ import 'dotenv/config';
 import EmployeeRoute from "./interfaces/routes/Employee.route";
 import CoordinatorRoute from "./interfaces/routes/Coordinator.route";
 import auth from "./interfaces/routes/Auth.route";
+import ProjectRoute from "./interfaces/routes/Project.route";
+import RecursosHumanosRoute from "./interfaces/routes/RecursosHumanos.route";
 
 const app = express()
 
@@ -27,6 +29,8 @@ app.get("/", (req, res) => {
 app.use(EmployeeRoute)
 app.use(CoordinatorRoute)
 app.use(auth)
+app.use(ProjectRoute)
+app.use(RecursosHumanosRoute)
 
 const PORT = process.env.PORT || 3000;
 
