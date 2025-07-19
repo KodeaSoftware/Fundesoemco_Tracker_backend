@@ -15,6 +15,7 @@ export class ProjectRepository implements ProjectPort {
     async crearProject(project: Project): Promise<boolean> {
         try {
             const { ...projectData } = project;
+            console.log(projectData)
             await ProjectModel.create(projectData);
             return true;
         } catch (error) {
@@ -41,24 +42,34 @@ export class ProjectRepository implements ProjectPort {
 
     async traerProject(): Promise<Project[]> {
         const projects = await ProjectModel.findAll();
-        return projects.map(p => new Project(
-            p.getDataValue('titulo'),
-            p.getDataValue('descripcion'),
-            p.getDataValue('creadoEn'),
-            p.getDataValue('jornada'),
-            p.getDataValue('id')
-        ));
+        return projects.map(p => {
+            const jornadaData = p.getDataValue('jornada');
+            return new Project(
+                p.getDataValue('titulo'),
+                p.getDataValue('descripcion'),
+                new Date(p.getDataValue('creadoEn')),
+                {
+                    horaEntrada: new Date(jornadaData.horaEntrada),
+                    horaSalida: new Date(jornadaData.horaSalida)
+                },
+                p.getDataValue('id')
+            );
+        });
     }
 
     async traerProjectPorId(id: string): Promise<Project | null> {
         const project = await ProjectModel.findByPk(id);
         if (!project) return null;
 
+        const jornadaData = project.getDataValue('jornada');
         return new Project(
             project.getDataValue('titulo'),
             project.getDataValue('descripcion'),
-            project.getDataValue('creadoEn'),
-            project.getDataValue('jornada'),
+            new Date(project.getDataValue('creadoEn')),
+            {
+                horaEntrada: new Date(jornadaData.horaEntrada),
+                horaSalida: new Date(jornadaData.horaSalida)
+            },
             project.getDataValue('id')
         );
     }
