@@ -3,6 +3,7 @@ import { ProjectAssignamentService } from "../../services/ProjectAssignament.ser
 import { ProjectService } from "../../services/Project.serviceInstance";
 
 import { Employee } from "../../../domain/models/Employee";
+import { ProjectAssignamentEmployee } from "../../../domain/models/ProjectAssignamentEmployee";
 
 
 export async function createEmployeeUseCase(employee: Employee) {
@@ -13,10 +14,14 @@ export async function createEmployeeUseCase(employee: Employee) {
     const employeeCreated = await EmployeeService.crearEmpleado(employee)
     if (!employeeCreated) throw new Error("Error al crear el empleado")
 
-    const idProject = await ProjectService.verificarPorTitulo(employee.proyecto[0])
+    const idEmployee = employeeCreated.id
 
-    const idEmployee = employee.id
-    const projectAssignmanet = await ProjectAssignamentService.asignarProyecto(idProject, idEmployee)
+    const projectAssignmanet = await Promise.all(
+        employee.proyecto.map(async idProject => {
+            const ProjectAssignamentData = new ProjectAssignamentEmployee(idProject, idEmployee)
+            return await ProjectAssignamentService.asignarProyecto(ProjectAssignamentData);
+        })
+    );
 
 
     return {
@@ -24,6 +29,7 @@ export async function createEmployeeUseCase(employee: Employee) {
         status: "Created",
         id: employee.id,
         cc: employee.cedula,
-        name: employee.nombre
+        name: employee.nombre,
+        employeeObject: employeeCreated
     }
 }
