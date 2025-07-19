@@ -4,12 +4,10 @@ import { ProjectAssignamentEmployeePort } from "../../domain/ports/ProjectAssign
 
 export class ProjectAssignamentEmployeeRepository implements ProjectAssignamentEmployeePort {
 
-    async asignarProyecto(idProject: string | null, idEmployee: string | undefined): Promise<boolean> {
+    async asignarProyecto(ProjectAssignament: ProjectAssignamentEmployee): Promise<boolean> {
+        const { ...ProjectAssignamentData } = ProjectAssignament
         try {
-            await ProjectAssignamentEmployeeModel.create({
-                idProject,
-                idEmployee
-            });
+            await ProjectAssignamentEmployeeModel.create(ProjectAssignamentData);
             return true;
         } catch (error) {
             throw new Error("Error al asignar proyecto: " + error);
