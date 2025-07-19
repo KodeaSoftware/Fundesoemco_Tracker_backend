@@ -28,16 +28,35 @@ export class EmployeeRepository implements EmployeePort {
         );
     }
 
-    async crearEmpleado(empleado: Employee): Promise<boolean> {
+    async crearEmpleado(empleado: Employee): Promise<Employee> {
         try {
-            const { ...EmployeeData } = empleado
-            await EmployeeModel.create(EmployeeData);
-            return true;
+            const empleadoCreado = await EmployeeModel.create({
+                id: empleado.id,
+                cedula: empleado.cedula,
+                nombre: empleado.nombre,
+                departamento: empleado.departamento,
+                cargo: empleado.cargo,
+                contrato: empleado.contrato,
+                proyecto: empleado.proyecto,
+                telefono: empleado.telefono
+            });
+
+            return new Employee(
+                empleadoCreado.getDataValue('cedula'),
+                empleadoCreado.getDataValue('nombre'),
+                empleadoCreado.getDataValue('departamento'),
+                empleadoCreado.getDataValue('cargo'),
+                empleadoCreado.getDataValue('contrato'),
+                empleadoCreado.getDataValue('proyecto'),
+                empleadoCreado.getDataValue('telefono'),
+                empleadoCreado.getDataValue('id'),
+            );
         } catch (error) {
-            throw new Error("error crear empleado" + error)
-            return false;
+            throw new Error("Error al crear empleado: " + error);
         }
     }
+
+
 
     async eliminarEmpleado(id: string): Promise<boolean> {
         const deleted = await EmployeeModel.destroy({ where: { id } });
