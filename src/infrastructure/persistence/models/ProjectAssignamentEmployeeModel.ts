@@ -5,7 +5,7 @@ import { DataTypes, Model } from 'sequelize';
 export class ProjectAssignamentEmployeeModel extends Model { }
 
 ProjectAssignamentEmployeeModel.init({
-    idPorject: {
+    idProject: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
     },
@@ -16,6 +16,7 @@ ProjectAssignamentEmployeeModel.init({
 }, {
     sequelize,
     modelName: 'ProjectEmployee',
-    tableName: 'project-employee',
+    tableName: 'project_employee',
+    freezeTableName: true,
     timestamps: false,
 }); 
