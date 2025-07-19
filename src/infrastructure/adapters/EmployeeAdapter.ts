@@ -1,5 +1,6 @@
 import { Employee } from "../../domain/models/Employee";
 import { EmployeePort } from "../../domain/ports/EmployeePort";
+import { EmployeeModel } from "../persistence/models/EmployeeModel";
 import { EmployeeRepository } from "../repositories/Employee.repository";
 
 export class EmployeeAdapter implements EmployeePort {
@@ -20,7 +21,7 @@ export class EmployeeAdapter implements EmployeePort {
         return this.repository.eliminarEmpleado(id)
     }
 
-    async crearEmpleado(empleado: Employee): Promise<boolean> {
+    async crearEmpleado(empleado: Employee): Promise<Employee> {
 
         return await this.repository.crearEmpleado(empleado)
     }
