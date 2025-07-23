@@ -16,6 +16,7 @@ export async function createEmployeeUseCase(employee: Employee) {
 
     const idEmployee = employeeCreated.id
 
+    // Itera por cada UUID de proyecto que tiene employee para asignarlo a estos mismos 
     const projectAssignmanet = await Promise.all(
         employee.proyecto.map(async idProject => {
             const ProjectAssignamentData = new ProjectAssignamentEmployee(idProject, idEmployee)

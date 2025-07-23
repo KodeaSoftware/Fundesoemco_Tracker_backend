@@ -1,3 +1,4 @@
+import "./infrastructure/persistence/models/associations";
 import express from "express"
 import cors from "cors"
 import { sequelize } from "./infrastructure/persistence/database";

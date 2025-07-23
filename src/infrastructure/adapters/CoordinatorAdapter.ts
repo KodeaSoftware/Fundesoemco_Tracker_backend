@@ -11,7 +11,7 @@ export class CoordinatorAdapter implements CoordinatorPort {
         return this.repository.verificarPorCedula(cedula)
     }
 
-    crearCoordinator(coordinator: Coordinator): Promise<boolean> {
+    crearCoordinator(coordinator: Coordinator): Promise<CoordinatorDTO> {
         return this.repository.crearCoordinator(coordinator)
     }
 

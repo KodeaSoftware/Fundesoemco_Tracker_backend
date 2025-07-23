@@ -9,14 +9,30 @@ export class CoordinatorRepository implements CoordinatorPort {
         return count > 0;
     }
 
-    async crearCoordinator(coordinator: Coordinator): Promise<boolean> {
+    async crearCoordinator(coordinator: Coordinator): Promise<CoordinatorDTO> {
         try {
-            const { ...coordinatorData } = coordinator;
-            await CoordinatorModel.create(coordinatorData);
+            const coordinadorCreado = await CoordinatorModel.create({
+                id: coordinator.id,
+                cedula: coordinator.cedula,
+                nombre: coordinator.nombre,
+                departamento: coordinator.departamento,
+                cargo: coordinator.cargo,
+                proyecto: coordinator.proyecto,
+                correo: coordinator.correo,
+                password: coordinator.password
+            });
 
-            return true;
+            return new CoordinatorDTO(
+                coordinadorCreado.getDataValue('cedula'),
+                coordinadorCreado.getDataValue('nombre'),
+                coordinadorCreado.getDataValue('departamento'),
+                coordinadorCreado.getDataValue('cargo'),
+                coordinadorCreado.getDataValue('proyecto'),
+                coordinadorCreado.getDataValue('correo'),
+                coordinadorCreado.getDataValue('id')
+            );
         } catch (error) {
-            return false
+            throw new Error("Error al crear coordinador: " + error);
         }
     }
 

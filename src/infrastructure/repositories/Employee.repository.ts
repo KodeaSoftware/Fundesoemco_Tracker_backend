@@ -1,6 +1,12 @@
 import { EmployeePort } from '../../domain/ports/EmployeePort';
 import { Employee } from '../../domain/models/Employee';
 import { EmployeeModel } from "../persistence/models/EmployeeModel"
+import { ProjectAssignamentEmployeeModel } from '../persistence/models/ProjectAssignamentEmployeeModel';
+import { EmploymentContractModel } from '../persistence/models/EmploymentContractModel';
+import { ProjectModel } from '../persistence/models/ProjectModel';
+
+
+
 export class EmployeeRepository implements EmployeePort {
 
 
@@ -80,6 +86,7 @@ export class EmployeeRepository implements EmployeePort {
 
     async traerEmpleados(): Promise<Employee[]> {
         const empleados = await EmployeeModel.findAll();
+
         return empleados.map(e => new Employee(
             e.getDataValue('cedula'),
             e.getDataValue('nombre'),
@@ -89,6 +96,46 @@ export class EmployeeRepository implements EmployeePort {
             e.getDataValue('proyecto'),
             e.getDataValue('telefono'),
             e.getDataValue('id')
+
         ));
     }
+
+    async traerPorProyectoContrato(idProject: string, tipoContrato: number): Promise<Employee[]> {
+        const employees = await EmployeeModel.findAll({
+            include: [
+                {
+                    model: ProjectAssignamentEmployeeModel,
+                    as: 'asignacionesProyecto',
+                    where: { idProject },
+                    required: true,
+                    attributes: []
+                },
+                {
+                    model: EmploymentContractModel,
+                    as: 'tipoContrato',
+                    where: { id: tipoContrato },
+                    attributes: ['contract_type'],
+                    required: true
+                }
+            ]
+        });
+
+        const projectSearch = await ProjectModel.findAll({ where: { id: idProject } })
+        const projectName = projectSearch[0].dataValues.titulo
+
+        return employees.map(e => new Employee(
+            e.getDataValue('cedula'),
+            e.getDataValue('nombre'),
+            e.getDataValue('departamento'),
+            e.getDataValue('cargo'),
+            e.getDataValue('contrato'),
+            e.getDataValue('proyecto'),
+            e.getDataValue('telefono'),
+            e.getDataValue('id'),
+            e.getDataValue('tipoContrato')?.contract_type,
+            [projectName]
+        ));
+    }
+
+
 }

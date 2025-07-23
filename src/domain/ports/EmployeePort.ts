@@ -7,7 +7,7 @@
  */
 
 import { Employee } from '../models/Employee';
-import { EmployeeModel } from '../../infrastructure/persistence/models/EmployeeModel';
+
 
 export interface EmployeePort {
     verificarPorCedula(cedula: number): Promise<boolean>;
@@ -16,6 +16,7 @@ export interface EmployeePort {
     editarEmpleado(empleado: Employee): Promise<boolean>;
     traerEmpleados(): Promise<Employee[]>;
     traerPorCedula(cedula: number): Promise<Employee | null>;
+    traerPorProyectoContrato(idProject: string, tipoContrato: number): Promise<Employee[]>
 }
 
 

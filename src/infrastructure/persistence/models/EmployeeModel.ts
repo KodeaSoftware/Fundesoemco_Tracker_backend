@@ -1,5 +1,7 @@
 import { sequelize } from '../database';
 import { DataTypes, Model } from 'sequelize';
+import { EmploymentContractModel } from './EmploymentContractModel';
+import { ProjectAssignamentEmployeeModel } from './ProjectAssignamentEmployeeModel';
 
 // Definición del modelo Sequelize para Employee
 export class EmployeeModel extends Model { }
@@ -28,11 +30,11 @@ EmployeeModel.init({
         allowNull: false,
     },
     contrato: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: false,
     },
     proyecto: {
-        type: DataTypes.ARRAY(DataTypes.STRING),
+        type: DataTypes.ARRAY(DataTypes.UUID),
         allowNull: false,
     },
     telefono: {

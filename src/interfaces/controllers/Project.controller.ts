@@ -4,6 +4,7 @@ import { deleteProjectUseCase } from "../../application/usecases/Projects/delete
 import { editProjectUseCase } from "../../application/usecases/Projects/editProjectUseCase";
 import { Request, Response } from "express";
 import { Project } from "../../domain/models/Project";
+import { getProjectById } from "../../application/usecases/Projects/getProjectById";
 
 
 export async function createProject(req: Request, res: Response) {
@@ -42,7 +43,7 @@ export async function createProject(req: Request, res: Response) {
 
 export async function getAllProject(req: Request, res: Response) {
     try {
-        const projectList = await getAllProjectsUseCase()
+        const projectList = await getProjectById("dba36d10-ef07-4c1f-975d-9eb9e6665b38")
         if (!projectList) throw new Error("Failed to get Project list")
         res.status(200).json(projectList)
     } catch (err) {

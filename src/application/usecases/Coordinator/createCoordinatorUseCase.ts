@@ -1,6 +1,8 @@
 import { CoordinatorService } from "../../services/Coordinator.serviceInstance";
 import { Coordinator } from "../../../domain/models/Coordinator";
 import bcrypt from "bcrypt"
+import { ProjectAssignamentCoordinator } from "../../../domain/models/ProjectAssignamentCoordinator";
+import { ProjectAssignamentCoordinatorService } from "../../services/ProjectAassignamentCoordinator.serviceInstance";
 
 export async function createCoordinatorUseCase(coordinator: Coordinator) {
 
@@ -22,11 +24,22 @@ export async function createCoordinatorUseCase(coordinator: Coordinator) {
     const coordinatorCreated = await CoordinatorService.crearCoordinator(coordinator)
     if (!coordinatorCreated) throw new Error("Error al crear el coordinador")
 
+    const idCoordinator = coordinatorCreated.id
+
+    // Itera por cada UUID de proyecto que tiene employee para asignarlo a estos mismos 
+    const projectAssignmanet = await Promise.all(
+        coordinator.proyecto.map(async idProject => {
+            const ProjectAssignamentData = new ProjectAssignamentCoordinator(idProject, idCoordinator)
+            return await ProjectAssignamentCoordinatorService.asignarProyecto(ProjectAssignamentData);
+        })
+    );
     return {
+        projectAssignament: projectAssignmanet,
         status: "Created",
         id: coordinator.id,
         cc: coordinator.cedula,
         name: coordinator.nombre,
-        email: coordinator.correo
+        email: coordinator.correo,
+        coordinatorObject: coordinatorCreated
     }
 }

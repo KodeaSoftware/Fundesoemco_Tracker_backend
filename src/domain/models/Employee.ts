@@ -6,15 +6,16 @@ export class Employee {
         public nombre: string,
         public departamento: string,
         public cargo: string,
-        public contrato: string,
+        public contrato: number,
         public proyecto: string[],
         public telefono: number,
         public id?: string,
+        public tipoContrato?: string,
+        public nombreProject?: string[]
     ) {
         this.id = id ?? uuidv4();
     }
     validarDatos(): void {
         if (!this.cedula) throw new Error("Falta cédula")
     }
-
 }

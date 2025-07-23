@@ -5,7 +5,7 @@ export class Coordinator {
         public nombre: string,
         public departamento: string,
         public cargo: string,
-        public proyecto: string,
+        public proyecto: string[],
         public password: string,
         public correo: string,
         public id?: string,

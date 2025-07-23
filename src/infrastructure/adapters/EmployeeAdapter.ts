@@ -33,4 +33,8 @@ export class EmployeeAdapter implements EmployeePort {
     traerPorCedula(cedula: number): Promise<Employee | null> {
         return this.repository.traerPorCedula(cedula)
     }
+
+    traerPorProyectoContrato(idProject: string, tipoContrato: number): Promise<Employee[]> {
+        return this.repository.traerPorProyectoContrato(idProject, tipoContrato)
+    }
 }
