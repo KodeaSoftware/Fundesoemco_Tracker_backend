@@ -43,7 +43,7 @@ export async function createProject(req: Request, res: Response) {
 
 export async function getAllProject(req: Request, res: Response) {
     try {
-        const projectList = await getProjectById("dba36d10-ef07-4c1f-975d-9eb9e6665b38")
+        const projectList = await getAllProjectsUseCase()
         if (!projectList) throw new Error("Failed to get Project list")
         res.status(200).json(projectList)
     } catch (err) {
