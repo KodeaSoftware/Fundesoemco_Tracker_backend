@@ -8,6 +8,7 @@ import CoordinatorRoute from "./interfaces/routes/Coordinator.route";
 import auth from "./interfaces/routes/Auth.route";
 import ProjectRoute from "./interfaces/routes/Project.route";
 import RecursosHumanosRoute from "./interfaces/routes/RecursosHumanos.route";
+import employment from "./interfaces/routes/ContractTypes.route";
 
 const app = express()
 
@@ -32,7 +33,7 @@ app.use(CoordinatorRoute)
 app.use(auth)
 app.use(ProjectRoute)
 app.use(RecursosHumanosRoute)
-
+app.use(employment)
 const PORT = process.env.PORT || 3000;
 
 sequelize.authenticate() // PostgreSQL railway conection sequelize 
