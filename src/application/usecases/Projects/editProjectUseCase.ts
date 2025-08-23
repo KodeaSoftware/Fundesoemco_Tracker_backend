@@ -4,9 +4,6 @@ import { Project } from "../../../domain/models/Project";
 export async function editProjectUseCase(project: Project) {
     if (!project) throw new Error("Error interno al ingresar el proyecto a editar")
 
-    // Validar que el proyecto tenga datos válidos
-    project.validarDatos();
-
     const editedProject = await ProjectService.editarProject(project)
     if (!editedProject) throw new Error("Error interno al editar el proyecto")
 

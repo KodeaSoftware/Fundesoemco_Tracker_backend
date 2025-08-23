@@ -22,8 +22,6 @@ export async function createProject(req: Request, res: Response) {
             raw.id // opcional, se autogenera si no se pasa
         );
 
-        project.validarDatos();
-
         const projectCreated = await createProjectUseCase(project);
 
         if (!projectCreated) {
@@ -54,6 +52,7 @@ export async function getAllProject(req: Request, res: Response) {
 export async function editProject(req: Request, res: Response) {
     try {
         const dataProject = req.body
+        console.log(dataProject)
         const editProject = await editProjectUseCase(dataProject)
         if (!editProject) throw new Error("Failed to edit Project")
         res.status(200).json(editProject)
