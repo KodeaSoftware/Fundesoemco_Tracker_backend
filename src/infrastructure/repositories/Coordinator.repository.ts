@@ -49,7 +49,6 @@ export class CoordinatorRepository implements CoordinatorPort {
             cargo: coordinator.cargo,
             proyecto: coordinator.proyecto,
             correo: coordinator.correo,
-            password: coordinator.password
 
         }, {
             where: { id: coordinator.id },

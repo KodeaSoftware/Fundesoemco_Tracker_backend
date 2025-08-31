@@ -26,7 +26,7 @@ export class CoordinatorDTO {
         public nombre: string,
         public departamento: string,
         public cargo: string,
-        public proyecto: string,
+        public proyecto: string[],
         public correo: string,
         public id: string
     ) { }

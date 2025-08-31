@@ -23,6 +23,7 @@
     "pg-hstore": "^2.3.4",
     "psql": "^0.0.1",
     "reflect-metadata": "^0.2.2",
+    "resend": "^6.0.2",
     "sequelize": "^6.37.7",
     "sequelize-typescript": "^2.1.6"
   },

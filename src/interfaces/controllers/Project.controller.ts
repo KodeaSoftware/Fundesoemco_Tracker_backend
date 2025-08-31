@@ -52,7 +52,6 @@ export async function getAllProject(req: Request, res: Response) {
 export async function editProject(req: Request, res: Response) {
     try {
         const dataProject = req.body
-        console.log(dataProject)
         const editProject = await editProjectUseCase(dataProject)
         if (!editProject) throw new Error("Failed to edit Project")
         res.status(200).json(editProject)
