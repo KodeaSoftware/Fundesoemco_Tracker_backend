@@ -2,6 +2,7 @@ import "./infrastructure/persistence/models/associations";
 import express from "express"
 import cors from "cors"
 import { sequelize } from "./infrastructure/persistence/database";
+import { connectRedis, disconnectRedis } from "./infrastructure/persistence/redis";
 import 'dotenv/config';
 import EmployeeRoute from "./interfaces/routes/Employee.route";
 import CoordinatorRoute from "./interfaces/routes/Coordinator.route";
@@ -20,7 +21,7 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// Middleware para express - DEBE ir ANTES de las rutas
+
 app.use(express.json())
 
 // Ruta de prueba
@@ -38,12 +39,27 @@ app.use(employment)
 app.use(EmailRoute)
 const PORT = process.env.PORT || 3000;
 
-sequelize.authenticate() // PostgreSQL railway conection sequelize 
+// Función para inicializar las conexiones
+const initializeConnections = async () => {
+    try {
+        // Conectar a PostgreSQL
+        await sequelize.authenticate();
+        console.log('Conexión a PostgreSQL establecida');
 
-// Iniciar el servidor
-app.listen(PORT, () => {
-    console.log(`Servidor corriendo en http://localhost:${PORT}`);
-});
+        // Conectar a Redis
+        await connectRedis();
+
+        // Iniciar el servidor
+        app.listen(PORT, () => {
+            console.log(`Servidor corriendo en http://localhost:${PORT}`);
+        });
+    } catch (error) {
+        console.error('Error al inicializar las conexiones:', error);
+        process.exit(1);
+    }
+};
+
+initializeConnections();
 
 
 

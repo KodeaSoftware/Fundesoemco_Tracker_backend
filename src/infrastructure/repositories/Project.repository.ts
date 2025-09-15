@@ -57,20 +57,19 @@ export class ProjectRepository implements ProjectPort {
         });
     }
 
-    async traerProjectPorId(id: string): Promise<Project | null> {
+    async traerProjectPorId(id: string): Promise<Project> {
         const project = await ProjectModel.findByPk(id);
-        if (!project) return null;
 
-        const jornadaData = project.getDataValue('jornada');
+        const jornadaData = project?.getDataValue('jornada');
         return new Project(
-            project.getDataValue('titulo'),
-            project.getDataValue('descripcion'),
-            new Date(project.getDataValue('creadoEn')),
+            project?.getDataValue('titulo'),
+            project?.getDataValue('descripcion'),
+            new Date(project?.getDataValue('creadoEn')),
             {
-                horaEntrada: new Date(jornadaData.horaEntrada),
+                horaEntrada: new Date(jornadaData?.horaEntrada),
                 horaSalida: new Date(jornadaData.horaSalida)
             },
-            project.getDataValue('id')
+            project?.getDataValue('id')
         );
     }
 } 

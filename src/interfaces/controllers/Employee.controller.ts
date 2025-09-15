@@ -2,6 +2,8 @@ import { createEmployeeUseCase } from "../../application/usecases/Employee/creat
 import { getAllEmployeeUseCase } from "../../application/usecases/Employee/getAllEmployeeUseCase";
 import { deleteEmployeeUseCase } from "../../application/usecases/Employee/deleteEmployeeUseCase";
 import { editEmployeeUseCase } from "../../application/usecases/Employee/editEmplyeeUseCase";
+import { attendanceEmployeeUseCase } from "../../application/usecases/Employee/attendanceEmployeeUseCase";
+import { getAllEmployeeAttendanceUseCase } from "../../application/usecases/Employee/getAllEmployeeAttendanceUseCase";
 import { Request, Response } from "express";
 import { getEmployeeByProjectandTypeContractUseCase } from "../../application/usecases/Employee/getEmployeeByProjectandTypeContractUseCase";
 
@@ -15,6 +17,18 @@ export async function createEmployee(req: Request, res: Response) {
         res.status(500).send({ message: "Internal server error" + err })
     }
 }
+
+
+export async function attendanceEmployee(req: Request, res: Response) {
+    try {
+        const dataEmployee = req.body
+        const attendanceEmployee = await attendanceEmployeeUseCase(dataEmployee.cedula, dataEmployee.idProject)
+        res.status(200).json(attendanceEmployee)
+    } catch (err) {
+        res.status(500).send({ message: "Internal server error" + err })
+    }
+}
+
 
 export async function getAllEmployee(req: Request, res: Response) {
     try {
@@ -57,5 +71,15 @@ export async function getEmployeeByProjectandTypeContract(req: Request, res: Res
         res.status(200).json(employeeList)
     } catch (err) {
         res.status(500).send({ message: "Internal server error" + err })
+    }
+}
+
+export async function getAllEmployeeAttendance(req: Request, res: Response) {
+    try {
+        const employeeAttendanceList = await getAllEmployeeAttendanceUseCase()
+        if (!employeeAttendanceList) throw new Error("Failed to get employee attendance list")
+        res.status(200).json(employeeAttendanceList)
+    } catch (err) {
+        res.status(500).send({ message: "Internal server error: " + err })
     }
 }

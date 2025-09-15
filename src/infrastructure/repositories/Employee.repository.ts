@@ -15,22 +15,17 @@ export class EmployeeRepository implements EmployeePort {
         return count > 0;
     }
 
-    async traerPorCedula(cedula: number): Promise<Employee | null> {
+    async traerPorCedula(cedula: number): Promise<Employee> {
         const employee = await EmployeeModel.findOne({ where: { cedula } })
-
-        if (!employee) {
-            return null;
-        }
-
         return new Employee(
-            employee.getDataValue('cedula'),
-            employee.getDataValue('nombre'),
-            employee.getDataValue('departamento'),
-            employee.getDataValue('cargo'),
-            employee.getDataValue('contrato'),
-            employee.getDataValue('proyecto'),
-            employee.getDataValue('telefono'),
-            employee.getDataValue('id')
+            employee?.getDataValue('cedula'),
+            employee?.getDataValue('nombre'),
+            employee?.getDataValue('departamento'),
+            employee?.getDataValue('cargo'),
+            employee?.getDataValue('contrato'),
+            employee?.getDataValue('proyecto'),
+            employee?.getDataValue('telefono'),
+            employee?.getDataValue('id')
         );
     }
 

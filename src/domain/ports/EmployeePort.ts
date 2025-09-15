@@ -15,7 +15,7 @@ export interface EmployeePort {
     eliminarEmpleado(id: string): Promise<boolean>;
     editarEmpleado(empleado: Employee): Promise<boolean>;
     traerEmpleados(): Promise<Employee[]>;
-    traerPorCedula(cedula: number): Promise<Employee | null>;
+    traerPorCedula(cedula: number): Promise<Employee>;
     traerPorProyectoContrato(idProject: string, tipoContrato: number): Promise<Employee[]>
 }
 
