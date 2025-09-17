@@ -2,7 +2,6 @@ import "./infrastructure/persistence/models/associations";
 import express from "express"
 import cors from "cors"
 import { sequelize } from "./infrastructure/persistence/database";
-import { connectRedis, disconnectRedis } from "./infrastructure/persistence/redis";
 import 'dotenv/config';
 import EmployeeRoute from "./interfaces/routes/Employee.route";
 import CoordinatorRoute from "./interfaces/routes/Coordinator.route";
@@ -45,9 +44,6 @@ const initializeConnections = async () => {
         // Conectar a PostgreSQL
         await sequelize.authenticate();
         console.log('Conexión a PostgreSQL establecida');
-
-        // Conectar a Redis
-        await connectRedis();
 
         // Iniciar el servidor
         app.listen(PORT, () => {
