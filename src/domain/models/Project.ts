@@ -13,4 +13,4 @@ export class Project {
     ) {
         this.id = id ?? uuidv4()
     }
-} 
+}
