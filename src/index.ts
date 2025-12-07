@@ -36,7 +36,7 @@ app.use(ProjectRoute)
 app.use(RecursosHumanosRoute)
 app.use(employment)
 app.use(EmailRoute)
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
 // Función para inicializar las conexiones
 const initializeConnections = async () => {

@@ -32,7 +32,6 @@ export class ProjectRepository implements ProjectPort {
         const [updated] = await ProjectModel.update({
             titulo: project.titulo,
             descripcion: project.descripcion,
-            creadoEn: project.creadoEn,
             jornada: project.jornada
         }, {
             where: { id: project.id },
@@ -47,11 +46,11 @@ export class ProjectRepository implements ProjectPort {
             return new Project(
                 p.getDataValue('titulo'),
                 p.getDataValue('descripcion'),
-                new Date(p.getDataValue('creadoEn')),
                 {
                     horaEntrada: new Date(jornadaData.horaEntrada),
                     horaSalida: new Date(jornadaData.horaSalida)
                 },
+                new Date(p.getDataValue('creadoEn')),
                 p.getDataValue('id')
             );
         });
@@ -64,11 +63,12 @@ export class ProjectRepository implements ProjectPort {
         return new Project(
             project?.getDataValue('titulo'),
             project?.getDataValue('descripcion'),
-            new Date(project?.getDataValue('creadoEn')),
+
             {
                 horaEntrada: new Date(jornadaData?.horaEntrada),
                 horaSalida: new Date(jornadaData.horaSalida)
             },
+            new Date(project?.getDataValue('creadoEn')),
             project?.getDataValue('id')
         );
     }

@@ -10,17 +10,17 @@ import { getProjectById } from "../../application/usecases/Projects/getProjectBy
 export async function createProject(req: Request, res: Response) {
     try {
         const raw = req.body;
-
-        const project = new Project(
-            raw.titulo,
-            raw.descripcion,
-            new Date(raw.creadoEn),
-            {
+        const constructor = {
+            titulo: raw.titulo,
+            descripcion: raw.descripcion,
+            creadoEn: new Date(raw.creadoEn),
+            jornada: {
                 horaEntrada: new Date(raw.jornada.horaEntrada),
                 horaSalida: new Date(raw.jornada.horaSalida),
             },
-            raw.id // opcional, se autogenera si no se pasa
-        );
+        }
+
+        const project = new Project(constructor.titulo, constructor.descripcion, constructor.jornada, constructor.creadoEn);
 
         const projectCreated = await createProjectUseCase(project);
 
