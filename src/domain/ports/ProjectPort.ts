@@ -17,5 +17,5 @@ export interface ProjectPort {
     eliminarProject(id: string): Promise<boolean>;
     editarProject(project: Project): Promise<boolean>;
     traerProject(): Promise<Project[]>;
-    traerProjectPorId(id: string): Promise<Project>;
-} 
+    traerProjectPorId(id: string): Promise<Project | null>;
+}

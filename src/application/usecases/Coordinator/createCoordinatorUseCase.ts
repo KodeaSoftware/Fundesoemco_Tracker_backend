@@ -17,21 +17,34 @@ export async function createCoordinatorUseCase(coordinator: Coordinator) {
     const searchByEmail = await CoordinatorService.verificarDuplicadosPorEmail(correo)
     if (searchByEmail) throw new Error("Ya existe una cuenta con " + correo)
 
-    //password
-    const hashedPassword = await bcrypt.hash(password, 10)
+    // Ensure proyecto is an array
+    if (!coordinator.proyecto) coordinator.proyecto = [];
+    if (!Array.isArray(coordinator.proyecto)) coordinator.proyecto = [coordinator.proyecto];
+
+    // Password Hashing
+    let hashedPassword;
+    try {
+        hashedPassword = await bcrypt.hash(password, 10);
+    } catch (bcryptError) {
+        console.error(">>> [USECASE] Error hashing password:", bcryptError);
+        throw new Error("Error procesando la seguridad de la cuenta");
+    }
     coordinator.password = hashedPassword
 
     const coordinatorCreated = await CoordinatorService.crearCoordinator(coordinator)
-    if (!coordinatorCreated) throw new Error("Error al crear el coordinador")
+    if (!coordinatorCreated) throw new Error("La base de datos no devolvió el coordinador creado")
 
     const idCoordinator = coordinatorCreated.id
 
-    // Itera por cada UUID de proyecto que tiene employee para asignarlo a estos mismos 
+    // Itera por cada UUID de proyecto que tiene coordinator para asignarlo a estos mismos 
     const projectAssignmanet = await Promise.all(
-        coordinator.proyecto.map(async idProject => {
-            const ProjectAssignamentData = new ProjectAssignamentCoordinator(idProject, idCoordinator)
-            return await ProjectAssignamentCoordinatorService.asignarProyecto(ProjectAssignamentData);
-        })
+        coordinator.proyecto
+            .flat() // Asegurar que sea plano
+            .filter(idProject => typeof idProject === 'string' && idProject.trim() !== "") // Filtrar vacíos
+            .map(async idProject => {
+                const ProjectAssignamentData = new ProjectAssignamentCoordinator(idProject, idCoordinator)
+                return await ProjectAssignamentCoordinatorService.asignarProyecto(ProjectAssignamentData);
+            })
     );
     return {
         projectAssignament: projectAssignmanet,

@@ -13,7 +13,7 @@ EmployeeModel.init({
         primaryKey: true,
     },
     cedula: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT,
         allowNull: false,
         unique: true,
     },
@@ -38,7 +38,7 @@ EmployeeModel.init({
         allowNull: false,
     },
     telefono: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT,
         allowNull: false,
     },
 }, {

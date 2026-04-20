@@ -11,7 +11,7 @@ CoordinatorModel.init({
         primaryKey: true,
     },
     cedula: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT,
         allowNull: false,
         unique: true,
     },

@@ -7,12 +7,13 @@ import { editCoordinatorUseCase } from "../../application/usecases/Coordinator/e
 export async function createCoordinator(req: Request, res: Response) {
     try {
         const coordinatorData = req.body
-        console.log(coordinatorData)
         const coordinatorCreated = await createCoordinatorUseCase(coordinatorData)
-        if (!coordinatorCreated) throw new Error("Failded to create a new Coordinator")
+        if (!coordinatorCreated) throw new Error("No se pudo crear el objeto coordinador")
         res.status(200).json(coordinatorCreated)
     } catch (err) {
-        res.status(500).send({ message: "Internal server error" + err })
+        res.status(500).send({
+            message: "Internal server error: " + (err instanceof Error ? err.message : String(err))
+        });
     }
 }
 
@@ -30,7 +31,7 @@ export async function deleteCoordinator(req: Request, res: Response) {
     try {
         const idCoordinator = req.params.id
         const deleteCoordinator = await deleteCoordinatorUseCase(idCoordinator)
-        if (!deleteCoordinator) throw new Error("Failded to edit a Employee")
+        if (!deleteCoordinator) throw new Error("Failed to delete a Coordinator")
         res.status(200).json(deleteCoordinator)
     } catch (err) {
         res.status(500).send({ message: "Internal server error" + err })

@@ -4,16 +4,20 @@ import { EmploymentContractModel } from "../persistence/models/EmploymentContrac
 
 export class EmploymentContractRepository implements EmployeeContractPort {
 
-    async crearContrato(contract_type: EmployeeContract): Promise<EmployeeContract> {
-        const contratoCreado = await EmploymentContractModel.create({
-            id: contract_type.id,
-            contract_type: contract_type.contract_type
-        });
+    async crearContrato(contract: EmployeeContract): Promise<EmployeeContract> {
+        try {
+            const contratoCreado = await EmploymentContractModel.create({
+                contract_type: contract.contract_type
+            });
 
-        return new EmployeeContract(
-            contratoCreado.getDataValue('id'),
-            contratoCreado.getDataValue('contract_type')
-        );
+            return new EmployeeContract(
+                contratoCreado.getDataValue('id'),
+                contratoCreado.getDataValue('contract_type')
+            );
+        } catch (error) {
+            console.error("Error al crear contrato en repositorio:", error);
+            throw error;
+        }
     }
 
     async listarTiposContrato(): Promise<EmployeeContract[]> {

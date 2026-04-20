@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+import { ensureDatabaseExists } from "./infrastructure/persistence/initDb";
 import "./infrastructure/persistence/models/associations";
 import express from "express"
 import cors from "cors"
@@ -10,6 +12,7 @@ import ProjectRoute from "./interfaces/routes/Project.route";
 import RecursosHumanosRoute from "./interfaces/routes/RecursosHumanos.route";
 import employment from "./interfaces/routes/ContractTypes.route";
 import EmailRoute from "./interfaces/routes/Email.route";
+import { initScheduler } from "./infrastructure/scheduler/dailyReport";
 
 const app = express()
 
@@ -41,13 +44,21 @@ const PORT = process.env.PORT;
 // Función para inicializar las conexiones
 const initializeConnections = async () => {
     try {
+        // Asegurar que la base de datos existe
+        await ensureDatabaseExists();
+
         // Conectar a PostgreSQL
         await sequelize.authenticate();
         console.log('Conexión a PostgreSQL establecida');
 
+        // Sincronizar modelos con la base de datos
+        await sequelize.sync({ alter: true });
+        console.log('Modelos sincronizados con la base de datos');
+
         // Iniciar el servidor
         app.listen(PORT, () => {
             console.log(`Servidor corriendo en http://localhost:${PORT}`);
+            initScheduler();
         });
     } catch (error) {
         console.error('Error al inicializar las conexiones:', error);

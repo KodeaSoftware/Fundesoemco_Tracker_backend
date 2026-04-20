@@ -32,7 +32,8 @@ export class ProjectRepository implements ProjectPort {
         const [updated] = await ProjectModel.update({
             titulo: project.titulo,
             descripcion: project.descripcion,
-            jornada: project.jornada
+            jornada: project.jornada,
+            estado: project.estado
         }, {
             where: { id: project.id },
         });
@@ -51,25 +52,27 @@ export class ProjectRepository implements ProjectPort {
                     horaSalida: new Date(jornadaData.horaSalida)
                 },
                 new Date(p.getDataValue('creadoEn')),
-                p.getDataValue('id')
+                p.getDataValue('id'),
+                p.getDataValue('estado')
             );
         });
     }
 
-    async traerProjectPorId(id: string): Promise<Project> {
+    async traerProjectPorId(id: string): Promise<Project | null> {
         const project = await ProjectModel.findByPk(id);
+        if (!project) return null;
 
-        const jornadaData = project?.getDataValue('jornada');
+        const jornadaData = project.getDataValue('jornada');
         return new Project(
-            project?.getDataValue('titulo'),
-            project?.getDataValue('descripcion'),
-
+            project.getDataValue('titulo'),
+            project.getDataValue('descripcion'),
             {
-                horaEntrada: new Date(jornadaData?.horaEntrada),
-                horaSalida: new Date(jornadaData.horaSalida)
+                horaEntrada: jornadaData?.horaEntrada ? new Date(jornadaData.horaEntrada) : new Date(),
+                horaSalida: jornadaData?.horaSalida ? new Date(jornadaData.horaSalida) : new Date()
             },
-            new Date(project?.getDataValue('creadoEn')),
-            project?.getDataValue('id')
+            new Date(project.getDataValue('creadoEn')),
+            project.getDataValue('id'),
+            project.getDataValue('estado')
         );
     }
 } 

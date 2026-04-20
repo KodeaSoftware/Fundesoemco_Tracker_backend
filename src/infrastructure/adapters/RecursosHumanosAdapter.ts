@@ -26,7 +26,7 @@ export class RecursosHumanosAdapter implements RecursosHumanosPort {
     traerRecursosHumanos(): Promise<RecursosHumanos[]> {
         return this.repository.traerRecursosHumanos()
     }
-    buscarPorEmail(correo: string): Promise<RecursosHumanos> {
+    buscarPorEmail(correo: string): Promise<RecursosHumanos | null> {
         return this.repository.buscarPorEmail(correo)
     }
 } 

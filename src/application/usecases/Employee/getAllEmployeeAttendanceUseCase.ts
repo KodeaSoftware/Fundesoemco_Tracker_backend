@@ -1,7 +1,12 @@
 import { EmployeeAttendanceService } from "../../services/EmployeeAttendance.serviceInstance";
 import { EmployeeService } from "../../services/Employee.serviceInstance";
+import { ProjectService } from "../../services/Project.serviceInstance";
 
 export interface EmployeeAttendanceInfo {
+    id?: string;
+    employee_id: string;
+    project_id: string;
+    project_title?: string;
     cedula: number;
     estado: string; // "puntual" o "tarde"
     fecha_asistencia: Date;
@@ -27,15 +32,27 @@ export async function getAllEmployeeAttendanceUseCase(): Promise<EmployeeAttenda
 
         // Obtener información de empleados para cada asistencia
         const resultado: EmployeeAttendanceInfo[] = [];
+        
+        // Obtener todos los empleados una sola vez
+        const empleados = await EmployeeService.traerEmpleados();
+        const empleadosMap = new Map(empleados.map(emp => [emp.id, emp]));
+
+        // Obtener todos los proyectos una sola vez para mapear títulos
+        const proyectos = await ProjectService.traerProject();
+        const proyectosMap = new Map(proyectos.map(p => [p.id, p]));
 
         for (const asistencia of asistencias) {
             try {
-                // Buscar empleado por ID (necesitamos obtener la cédula)
-                const empleados = await EmployeeService.traerEmpleados();
-                const empleado = empleados.find(emp => emp.id === asistencia.employee_id);
+                // Buscar empleado en el mapa por ID
+                const empleado = empleadosMap.get(asistencia.employee_id);
+                const proyecto = proyectosMap.get(asistencia.project_id);
 
                 if (empleado) {
                     resultado.push({
+                        id: asistencia.id,
+                        employee_id: asistencia.employee_id,
+                        project_id: asistencia.project_id,
+                        project_title: proyecto ? proyecto.titulo : 'Proyecto no encontrado',
                         cedula: empleado.cedula,
                         estado: asistencia.status,
                         fecha_asistencia: asistencia.attendance_date,
@@ -55,8 +72,7 @@ export async function getAllEmployeeAttendanceUseCase(): Promise<EmployeeAttenda
                     });
                 }
             } catch (error) {
-                console.error(`Error al obtener empleado ${asistencia.employee_id}:`, error);
-                // Continuar con el siguiente empleado
+                console.error(`Error al procesar asistencia de empleado ${asistencia.employee_id}:`, error);
             }
         }
 

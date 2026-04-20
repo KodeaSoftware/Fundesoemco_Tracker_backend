@@ -27,7 +27,7 @@ export class ProjectAdapter implements ProjectPort {
         return this.repository.traerProject()
     }
 
-    traerProjectPorId(id: string): Promise<Project> {
+    traerProjectPorId(id: string): Promise<Project | null> {
         return this.repository.traerProjectPorId(id)
     }
 } 

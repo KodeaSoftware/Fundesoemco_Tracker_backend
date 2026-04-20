@@ -5,7 +5,7 @@ import { ProjectAssignamentCoordinatorPort } from "../../domain/ports/ProjectAss
 export class ProjectAssignamentCoordinatorRepository implements ProjectAssignamentCoordinatorPort {
 
     async asignarProyecto(ProjectAssignament: ProjectAssignamentCoordinator): Promise<boolean> {
-        const { ...ProjectAssignamentData } = ProjectAssignament
+        const { id, ...ProjectAssignamentData } = ProjectAssignament
         try {
             await ProjectAssignamentCoordinatorModel.create(ProjectAssignamentData);
             return true;
@@ -19,12 +19,12 @@ export class ProjectAssignamentCoordinatorRepository implements ProjectAssigname
         return deleted > 0
     }
 
-    async listarCoordinatorDeProyecto(idPorject: string): Promise<ProjectAssignamentCoordinator[]> {
+    async listarCoordinatorDeProyecto(idProject: string): Promise<ProjectAssignamentCoordinator[]> {
         const asignaciones = await ProjectAssignamentCoordinatorModel.findAll({
-            where: { idPorject }
+            where: { idProject }
         });
         return asignaciones.map(a => new ProjectAssignamentCoordinator(
-            a.getDataValue('idPorject'),
+            a.getDataValue('idProject'),
             a.getDataValue('idCoordinator'),
         ));
     }

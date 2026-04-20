@@ -12,7 +12,6 @@ export class CoordinatorRepository implements CoordinatorPort {
     async crearCoordinator(coordinator: Coordinator): Promise<CoordinatorDTO> {
         try {
             const coordinadorCreado = await CoordinatorModel.create({
-                id: coordinator.id,
                 cedula: coordinator.cedula,
                 nombre: coordinator.nombre,
                 departamento: coordinator.departamento,
@@ -73,9 +72,9 @@ export class CoordinatorRepository implements CoordinatorPort {
     }
 
 
-    async buscarPorEmail(correo: string): Promise<Coordinator> {
+    async buscarPorEmail(correo: string): Promise<Coordinator | null> {
         const coordinador = await CoordinatorModel.findOne({ where: { correo } })
-        if (!coordinador) throw new Error("Coordinador no encontrado para" + correo)
+        if (!coordinador) return null;
 
         return new Coordinator(
             coordinador.getDataValue('cedula'),
@@ -93,5 +92,23 @@ export class CoordinatorRepository implements CoordinatorPort {
     async verificarDuplicadosPorEmail(correo: string): Promise<boolean> {
         const count = await CoordinatorModel.count({ where: { correo } });
         return count > 0;
+    }
+
+    async traerCoordinatorPorId(id: string): Promise<CoordinatorDTO | null> {
+        const coordinator = await CoordinatorModel.findByPk(id, {
+            attributes: { exclude: ['password'] }
+        });
+
+        if (!coordinator) return null;
+
+        return new CoordinatorDTO(
+            coordinator.getDataValue('cedula'),
+            coordinator.getDataValue('nombre'),
+            coordinator.getDataValue('departamento'),
+            coordinator.getDataValue('cargo'),
+            coordinator.getDataValue('proyecto'),
+            coordinator.getDataValue('correo'),
+            coordinator.getDataValue('id')
+        );
     }
 }

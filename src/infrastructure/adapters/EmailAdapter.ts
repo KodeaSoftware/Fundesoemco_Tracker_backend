@@ -10,4 +10,8 @@ export class EmailAdapter implements EmailPort {
     enviarCorreoContraseña(email: Email): Promise<boolean> {
         return this.repository.enviarCorreoContraseña(email)
     }
+
+    enviarEmail(to: string, subject: string, html: string): Promise<boolean> {
+        return this.repository.enviarEmail(to, subject, html)
+    }
 }

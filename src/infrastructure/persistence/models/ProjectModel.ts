@@ -29,6 +29,11 @@ ProjectModel.init({
         allowNull: true,
         defaultValue: {},
     },
+    estado: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: 'activo', // puede ser 'activo' o 'archivado'
+    },
 }, {
     sequelize,
     modelName: 'Project',

@@ -9,7 +9,8 @@ export class Project {
             horaSalida: Date
         },
         public creadoEn?: Date,
-        public id?: string
+        public id?: string,
+        public estado: string = 'activo'
     ) {
         this.id = id ?? uuidv4()
     }

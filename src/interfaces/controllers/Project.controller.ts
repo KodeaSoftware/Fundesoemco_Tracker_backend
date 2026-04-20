@@ -74,3 +74,18 @@ export async function deleteProject(req: Request, res: Response) {
         res.status(500).send({ message: "Internal server error" + err })
     }
 }
+
+export async function getProjectByIdController(req: Request, res: Response) {
+    try {
+        const { id } = req.params;
+        const project = await getProjectById(id);
+        if (!project) throw new Error(`Proyecto ${id} no encontrado`);
+        res.status(200).json(project);
+    } catch (err) {
+        if (err instanceof Error) {
+            res.status(404).json({ message: err.message });
+        } else {
+            res.status(500).json({ message: "Internal server error" });
+        }
+    }
+}

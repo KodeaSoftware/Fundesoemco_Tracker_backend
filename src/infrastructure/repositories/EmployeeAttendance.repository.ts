@@ -136,4 +136,17 @@ export class EmployeeAttendanceRepository {
             throw error;
         }
     }
+
+    async eliminarAsistenciasPorEmpleado(employee_id: string): Promise<boolean> {
+        try {
+            const rowsAffected = await EmployeeAttendanceModel.destroy({
+                where: { employee_id: employee_id }
+            });
+
+            return rowsAffected > 0; // Or return true regardless if it doesn't matter
+        } catch (error) {
+            console.error(`Error al eliminar asistencias del empleado ${employee_id}:`, error);
+            throw error;
+        }
+    }
 }

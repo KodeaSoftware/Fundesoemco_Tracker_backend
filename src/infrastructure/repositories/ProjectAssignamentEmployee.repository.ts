@@ -5,7 +5,7 @@ import { ProjectAssignamentEmployeePort } from "../../domain/ports/ProjectAssign
 export class ProjectAssignamentEmployeeRepository implements ProjectAssignamentEmployeePort {
 
     async asignarProyecto(ProjectAssignament: ProjectAssignamentEmployee): Promise<boolean> {
-        const { ...ProjectAssignamentData } = ProjectAssignament
+        const { id, ...ProjectAssignamentData } = ProjectAssignament
         try {
             await ProjectAssignamentEmployeeModel.create(ProjectAssignamentData);
             return true;
@@ -19,14 +19,27 @@ export class ProjectAssignamentEmployeeRepository implements ProjectAssignamentE
         return deleted > 0
     }
 
-    async listarEmpleadosDeProyecto(idPorject: string): Promise<ProjectAssignamentEmployee[]> {
+    async listarEmpleadosDeProyecto(idProject: string): Promise<ProjectAssignamentEmployee[]> {
         const asignaciones = await ProjectAssignamentEmployeeModel.findAll({
-            where: { idPorject }
+            where: { idProject }
         });
         return asignaciones.map(a => new ProjectAssignamentEmployee(
-            a.getDataValue('idPorject'),
+            a.getDataValue('idProject'),
             a.getDataValue('idEmployee'),
         ));
+    }
+
+    async reasignarEmpleadosDeProyecto(oldProjectId: string, newProjectId: string): Promise<boolean> {
+        const [updated] = await ProjectAssignamentEmployeeModel.update(
+            { idProject: newProjectId },
+            { where: { idProject: oldProjectId } }
+        );
+        return updated >= 0; // successfully executed
+    }
+
+    async vaciarEmpleadosDeProyecto(idProject: string): Promise<boolean> {
+        const deleted = await ProjectAssignamentEmployeeModel.destroy({ where: { idProject } });
+        return deleted >= 0;
     }
 
 }

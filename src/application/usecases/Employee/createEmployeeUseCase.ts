@@ -18,10 +18,12 @@ export async function createEmployeeUseCase(employee: Employee) {
 
     // Itera por cada UUID de proyecto que tiene employee para asignarlo a estos mismos 
     const projectAssignmanet = await Promise.all(
-        employee.proyecto.map(async idProject => {
-            const ProjectAssignamentData = new ProjectAssignamentEmployee(idProject, idEmployee)
-            return await ProjectAssignamentService.asignarProyecto(ProjectAssignamentData);
-        })
+        employee.proyecto
+            .filter(idProject => typeof idProject === 'string' && idProject.trim() !== "") // Filtrar IDs vacíos
+            .map(async idProject => {
+                const ProjectAssignamentData = new ProjectAssignamentEmployee(idProject, idEmployee)
+                return await ProjectAssignamentService.asignarProyecto(ProjectAssignamentData);
+            })
     );
 
 

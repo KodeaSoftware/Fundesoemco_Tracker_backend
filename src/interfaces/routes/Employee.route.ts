@@ -1,5 +1,10 @@
-import { attendanceEmployee, createEmployee, deleteEmployee, editEmployee, getAllEmployee, getEmployeeByProjectandTypeContract, getAllEmployeeAttendance } from "../../interfaces/controllers/Employee.controller";
+import { attendanceEmployee, createEmployee, deleteEmployee, editEmployee, getAllEmployee, getEmployeeByProjectandTypeContract, getAllEmployeeAttendance, downloadTemplate, bulkUpload } from "../../interfaces/controllers/Employee.controller";
 import { Router } from "express";
+import multer from "multer";
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
 const EmployeeRoute = Router()
 
 
@@ -12,4 +17,8 @@ EmployeeRoute.post("/api/employeeListProject", getEmployeeByProjectandTypeContra
 EmployeeRoute.post("/api/employee/attendance", attendanceEmployee)
 EmployeeRoute.get("/api/employee/attendance", getAllEmployeeAttendance)
 
-export default EmployeeRoute
+// Bulk operations
+EmployeeRoute.get("/api/employee/template", downloadTemplate)
+EmployeeRoute.post("/api/employee/bulk", upload.single("file"), bulkUpload)
+
+export default EmployeeRoute

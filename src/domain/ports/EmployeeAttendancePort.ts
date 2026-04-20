@@ -7,4 +7,5 @@ export interface EmployeeAttendancePort {
     obtenerAsistenciasPorFecha(fecha: Date): Promise<EmployeeAttendance[]>;
     actualizarAsistencia(asistencia: EmployeeAttendance): Promise<boolean>;
     eliminarAsistencia(id: string): Promise<boolean>;
+    eliminarAsistenciasPorEmpleado(employee_id: string): Promise<boolean>;
 }

@@ -6,4 +6,5 @@ import { Email } from "../models/Email";
  */
 export interface EmailPort {
     enviarCorreoContraseña(email: Email): Promise<boolean>;
+    enviarEmail(to: string, subject: string, html: string): Promise<boolean>;
 }

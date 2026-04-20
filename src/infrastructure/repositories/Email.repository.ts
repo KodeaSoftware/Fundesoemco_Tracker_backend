@@ -61,16 +61,37 @@ export class EmailRepository implements EmailPort {
             });
 
             if (error) {
-                console.error('Error al enviar correo:', error);
-                throw new Error(`Error al enviar correo: ${error.message}`);
+                console.error('Error detallado de Resend al enviar correo:', JSON.stringify(error, null, 2));
+                throw new Error(`Error al enviar correo (Resend): ${error.message}`);
             }
 
-            console.log('Correo enviado exitosamente:', data);
+            console.log('Respuesta exitosa de Resend:', JSON.stringify(data, null, 2));
             return true;
 
         } catch (error) {
             console.error('Error en EmailRepository:', error);
             throw new Error(`Error al enviar correo: ${error instanceof Error ? error.message : 'Error desconocido'}`);
+        }
+    }
+    async enviarEmail(to: string, subject: string, html: string): Promise<boolean> {
+        try {
+            const { data, error } = await this.resend.emails.send({
+                from: 'Fundesoemco <onboarding@resend.dev>',
+                to: [to],
+                subject: subject,
+                html: html
+            });
+
+            if (error) {
+                console.error('Error al enviar correo (Resend):', JSON.stringify(error, null, 2));
+                return false;
+            }
+
+            console.log('Correo enviado exitosamente:', JSON.stringify(data, null, 2));
+            return true;
+        } catch (error) {
+            console.error('Error en enviarEmail:', error);
+            return false;
         }
     }
 }

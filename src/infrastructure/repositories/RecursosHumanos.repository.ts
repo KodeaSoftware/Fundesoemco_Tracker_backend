@@ -49,17 +49,17 @@ export class RecursosHumanosRepository implements RecursosHumanosPort {
         ));
     }
 
-    async buscarPorEmail(correo: string): Promise<RecursosHumanos> {
-        const coordinador = await RecursosHumanosModel.findOne({ where: { correo } })
-        if (!coordinador) throw new Error("Coordinador no encontrado para" + correo)
+    async buscarPorEmail(correo: string): Promise<RecursosHumanos | null> {
+        const rrhh = await RecursosHumanosModel.findOne({ where: { correo } })
+        if (!rrhh) return null;
 
         return new RecursosHumanos(
-            coordinador.getDataValue('cedula'),
-            coordinador.getDataValue('nombre'),
-            coordinador.getDataValue('cargo'),
-            coordinador.getDataValue('correo'),
-            coordinador.getDataValue('password'),
-            coordinador.getDataValue('id')
+            rrhh.getDataValue('cedula'),
+            rrhh.getDataValue('nombre'),
+            rrhh.getDataValue('cargo'),
+            rrhh.getDataValue('correo'),
+            rrhh.getDataValue('password'),
+            rrhh.getDataValue('id')
         );
     }
 }

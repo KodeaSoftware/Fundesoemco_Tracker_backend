@@ -27,11 +27,15 @@ export class CoordinatorAdapter implements CoordinatorPort {
         return this.repository.traerCoordinator()
     }
 
-    buscarPorEmail(correo: string): Promise<Coordinator> {
+    buscarPorEmail(correo: string): Promise<Coordinator | null> {
         return this.repository.buscarPorEmail(correo)
     }
 
     verificarDuplicadosPorEmail(correo: string): Promise<boolean> {
         return this.repository.verificarDuplicadosPorEmail(correo)
+    }
+
+    traerCoordinatorPorId(id: string): Promise<CoordinatorDTO | null> {
+        return this.repository.traerCoordinatorPorId(id)
     }
 }

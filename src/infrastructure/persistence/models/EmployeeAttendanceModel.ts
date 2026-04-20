@@ -34,7 +34,7 @@ EmployeeAttendanceModel.init({
         type: DataTypes.UUID,
         allowNull: false,
         references: {
-            model: 'projects',
+            model: 'project',
             key: 'id'
         }
     },

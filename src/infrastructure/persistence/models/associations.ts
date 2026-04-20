@@ -16,11 +16,6 @@ ProjectAssignamentEmployeeModel.belongsTo(EmployeeModel, {
     as: 'empleado'
 });
 
-ProjectModel.belongsTo(ProjectAssignamentEmployeeModel, {
-    foreignKey: "id",
-    as: "project_model"
-})
-
 // Employee tiene muchas asignaciones
 EmployeeModel.hasMany(ProjectAssignamentEmployeeModel, {
     foreignKey: 'idEmployee',
@@ -33,11 +28,9 @@ EmployeeModel.belongsTo(EmploymentContractModel, {
     as: 'tipoContrato'
 });
 
-// Employee pertenece a un Proyecto
-EmployeeModel.belongsTo(ProjectModel, {
-    foreignKey: 'proyecto',
-    as: 'proyectoData'
-});
+// Nota: EmployeeModel.proyecto es un array de UUIDs (uuid[]) y no puede usarse
+// como FK directa. Las asignaciones de proyectos se manejan mediante la tabla
+// project_employee (ProjectAssignamentEmployeeModel).
 
 // EmployeeAttendance pertenece a un Employee
 EmployeeAttendanceModel.belongsTo(EmployeeModel, {

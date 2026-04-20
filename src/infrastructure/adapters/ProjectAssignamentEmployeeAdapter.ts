@@ -10,10 +10,16 @@ export class ProjectAssignamentEmployeeAdapter implements ProjectAssignamentEmpl
     eliminarEmpleadoDeProyecto(idEmployee: string): Promise<boolean> {
         return this.repository.eliminarEmpleadoDeProyecto(idEmployee)
     }
-    listarEmpleadosDeProyecto(idPorject: string): Promise<ProjectAssignamentEmployee[]> {
-        return this.repository.listarEmpleadosDeProyecto(idPorject)
+    listarEmpleadosDeProyecto(idProject: string): Promise<ProjectAssignamentEmployee[]> {
+        return this.repository.listarEmpleadosDeProyecto(idProject)
     }
     asignarProyecto(ProjectAssignament: ProjectAssignamentEmployee): Promise<boolean> {
         return this.repository.asignarProyecto(ProjectAssignament)
+    }
+    reasignarEmpleadosDeProyecto(oldProjectId: string, newProjectId: string): Promise<boolean> {
+        return this.repository.reasignarEmpleadosDeProyecto(oldProjectId, newProjectId)
+    }
+    vaciarEmpleadosDeProyecto(idProject: string): Promise<boolean> {
+        return this.repository.vaciarEmpleadosDeProyecto(idProject)
     }
 }

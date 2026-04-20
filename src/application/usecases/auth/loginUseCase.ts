@@ -7,9 +7,10 @@ export async function loginUseCase(correo: string, password: string, role: strin
 
     if (role === "coordinador") {
         const coordinador = await CoordinatorService.buscarPorEmail(correo)
+        if (!coordinador) throw new Error("Coordinador no encontrado")
 
         const comparePassword = await bcrypt.compare(password, coordinador.password)
-        if (!comparePassword) throw new Error("Contraseña incorrecta para" + correo)
+        if (!comparePassword) throw new Error("Contraseña incorrecta")
 
         const token = await generarToken({ correo: correo })
         if (!token) throw new Error("Error al generar token")
@@ -25,9 +26,10 @@ export async function loginUseCase(correo: string, password: string, role: strin
 
     if (role === "rrhh") {
         const rrhh = await RecursosHumanosService.buscarPorEmail(correo)
+        if (!rrhh) throw new Error("Usuario de RRHH no encontrado")
 
         const comparePassword = await bcrypt.compare(password, rrhh.password)
-        if (!comparePassword) throw new Error("Contraseña incorrecta para" + correo)
+        if (!comparePassword) throw new Error("Contraseña incorrecta")
 
         const token = await generarToken({ correo: correo })
         if (!token) throw new Error("Error al generar token")

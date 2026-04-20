@@ -11,7 +11,7 @@ EmploymentContractModel.init({
         allowNull: false
     },
     contract_type: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false
     },
 }, {
