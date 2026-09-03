@@ -8,4 +8,5 @@ export interface EmployeeAttendancePort {
     actualizarAsistencia(asistencia: EmployeeAttendance): Promise<boolean>;
     eliminarAsistencia(id: string): Promise<boolean>;
     eliminarAsistenciasPorEmpleado(employee_id: string): Promise<boolean>;
+    eliminarAsistenciasPorProyecto(project_id: string): Promise<boolean>;
 }

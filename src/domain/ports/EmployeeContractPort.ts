@@ -8,9 +8,9 @@
 import { EmployeeContract } from "../models/EmployeeContract";
 
 export interface EmployeeContractPort {
-    crearContrato(contract_type: EmployeeContract): Promise<EmployeeContract>
-    listarTiposContrato(): Promise<EmployeeContract[]>
-
+    crearContrato(contract_type: EmployeeContract): Promise<EmployeeContract>;
+    listarTiposContrato(): Promise<EmployeeContract[]>;
+    obtenerTipoContratoPorId(id: number): Promise<EmployeeContract | null>;
+    editarContrato(contract: EmployeeContract): Promise<boolean>;
+    eliminarContrato(id: number): Promise<boolean>;
 }
-
-

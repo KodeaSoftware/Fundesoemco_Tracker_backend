@@ -1,15 +1,16 @@
 import jwt, { Secret, JwtPayload } from 'jsonwebtoken';
-import { env } from 'process';
 
-// Clave secreta (idealmente en .env)
+// Clave secreta desde .env
 const SECRET_KEY: Secret = process.env.JWT_SECRET || ""
 
+if (!SECRET_KEY) {
+    throw new Error('JWT_SECRET no definido en .env — el servidor no puede arrancar sin clave secreta');
+}
 
 // Función para generar JWT
 export async function generarToken(
     payload: string | object | Buffer,
 ): Promise<string> {
-    console.log(SECRET_KEY)
     return jwt.sign(payload, SECRET_KEY, { expiresIn: '1h' });
 }
 

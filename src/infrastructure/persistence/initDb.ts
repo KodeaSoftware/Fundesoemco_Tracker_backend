@@ -7,38 +7,44 @@ export async function ensureDatabaseExists() {
         throw new Error('DATABASE_URL no está definido en .env');
     }
 
-    // Parse DATABASE_URL
-    const match = databaseUrl.match(/postgres:\/\/([^:]+):([^@]+)@([^:]+):(\d+)\/(.+)/);
-    if (!match) {
-        // Si no coincide con el formato estándar, intentamos conectar directamente para ver si falla
-        return;
-    }
-
-    const [, user, password, host, port, dbName] = match;
-
-    // Conectar a la base de datos 'postgres' predeterminada para crear la base de datos deseada
-    const client = new Client({
-        user,
-        password,
-        host,
-        port: parseInt(port),
-        database: 'postgres'
-    });
-
     try {
-        await client.connect();
-        const res = await client.query(`SELECT 1 FROM pg_database WHERE datname = '${dbName}'`);
-        
-        if (res.rowCount === 0) {
-            console.log(`La base de datos ${dbName} no existe. Creándola...`);
-            await client.query(`CREATE DATABASE ${dbName}`);
-            console.log(`Base de datos ${dbName} creada exitosamente.`);
-        } else {
-            console.log(`La base de datos ${dbName} ya existe.`);
+        const parsedUrl = new URL(databaseUrl);
+        const user = decodeURIComponent(parsedUrl.username);
+        const password = decodeURIComponent(parsedUrl.password);
+        const host = parsedUrl.hostname;
+        const port = parsedUrl.port ? parseInt(parsedUrl.port, 10) : 5432;
+        const dbName = parsedUrl.pathname.replace(/^\//, '');
+
+        if (!user || !host || !dbName) {
+            return;
+        }
+
+        // Conectar a la base de datos 'postgres' predeterminada para crear la base de datos deseada
+        const client = new Client({
+            user,
+            password,
+            host,
+            port,
+            database: 'postgres'
+        });
+
+        try {
+            await client.connect();
+            const res = await client.query(`SELECT 1 FROM pg_database WHERE datname = '${dbName}'`);
+            
+            if (res.rowCount === 0) {
+                console.log(`La base de datos ${dbName} no existe. Creándola...`);
+                await client.query(`CREATE DATABASE ${dbName}`);
+                console.log(`Base de datos ${dbName} creada exitosamente.`);
+            } else {
+                console.log(`La base de datos ${dbName} ya existe.`);
+            }
+        } catch (error) {
+            console.error('Error al verificar/crear la base de datos:', error);
+        } finally {
+            await client.end();
         }
     } catch (error) {
-        console.error('Error al verificar/crear la base de datos:', error);
-    } finally {
-        await client.end();
+        console.error('Error al procesar la URL de la base de datos:', error);
     }
 }

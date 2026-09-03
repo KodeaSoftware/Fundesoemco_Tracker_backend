@@ -1,4 +1,4 @@
-import { EmployeeContractPort } from '../../domain/ports/EmployeeCotractPort';
+import { EmployeeContractPort } from '../../domain/ports/EmployeeContractPort';
 import { EmployeeContract } from '../../domain/models/EmployeeContract';
 import { EmploymentContractModel } from "../persistence/models/EmploymentContractModel";
 
@@ -40,5 +40,30 @@ export class EmploymentContractRepository implements EmployeeContractPort {
             contrato.getDataValue('id'),
             contrato.getDataValue('contract_type')
         );
+    }
+
+    async editarContrato(contract: EmployeeContract): Promise<boolean> {
+        try {
+            const [rows] = await EmploymentContractModel.update(
+                { contract_type: contract.contract_type },
+                { where: { id: contract.id } }
+            );
+            return rows > 0;
+        } catch (error) {
+            console.error("Error al editar contrato en repositorio:", error);
+            throw error;
+        }
+    }
+
+    async eliminarContrato(id: number): Promise<boolean> {
+        try {
+            const rows = await EmploymentContractModel.destroy({
+                where: { id: id }
+            });
+            return rows > 0;
+        } catch (error) {
+            console.error("Error al eliminar contrato en repositorio:", error);
+            throw error;
+        }
     }
 }

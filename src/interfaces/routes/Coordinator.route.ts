@@ -1,12 +1,13 @@
 import { createCoordinator, getAllCoordinator, editCoordinator, deleteCoordinator } from "../controllers/Coordinator.controller";
 import { Router } from "express";
+import { authMiddleware } from "../middleware/authMiddleware";
 const CoordinatorRoute = Router()
 
 
-CoordinatorRoute.post("/api/coordinator", createCoordinator)
+CoordinatorRoute.post("/api/coordinator", authMiddleware, createCoordinator)
 
-CoordinatorRoute.get("/api/coordinator", getAllCoordinator)
-CoordinatorRoute.put("/api/coordinator", editCoordinator)
-CoordinatorRoute.delete("/api/coordinator/:id", deleteCoordinator)
+CoordinatorRoute.get("/api/coordinator", authMiddleware, getAllCoordinator)
+CoordinatorRoute.put("/api/coordinator", authMiddleware, editCoordinator)
+CoordinatorRoute.delete("/api/coordinator/:id", authMiddleware, deleteCoordinator)
 
 export default CoordinatorRoute

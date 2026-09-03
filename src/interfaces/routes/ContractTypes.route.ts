@@ -1,8 +1,12 @@
-import { getAllContractTypes, createContractType } from "../controllers/EmploymentContract.controller";
+import { getAllContractTypes, createContractType, editContractType, deleteContractType } from "../controllers/EmploymentContract.controller";
 import { Router } from "express";
-const employment = Router()
+import { authMiddleware } from "../middleware/authMiddleware";
 
-employment.get("/api/employment/contractTypes", getAllContractTypes)
-employment.post("/api/employment/contractTypes", createContractType)
+const employment = Router();
 
-export default employment
+employment.get("/api/employment/contractTypes", authMiddleware, getAllContractTypes);
+employment.post("/api/employment/contractTypes", authMiddleware, createContractType);
+employment.put("/api/employment/contractTypes", authMiddleware, editContractType);
+employment.delete("/api/employment/contractTypes/:id", authMiddleware, deleteContractType);
+
+export default employment;

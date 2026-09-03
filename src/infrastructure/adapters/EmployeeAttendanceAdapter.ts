@@ -34,4 +34,8 @@ export class EmployeeAttendanceAdapter implements EmployeeAttendancePort {
     async eliminarAsistenciasPorEmpleado(employee_id: string): Promise<boolean> {
         return await this.repository.eliminarAsistenciasPorEmpleado(employee_id);
     }
+
+    async eliminarAsistenciasPorProyecto(project_id: string): Promise<boolean> {
+        return await this.repository.eliminarAsistenciasPorProyecto(project_id);
+    }
 }

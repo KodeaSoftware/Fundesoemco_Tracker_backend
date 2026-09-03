@@ -5,17 +5,23 @@ import { RecursosHumanosService } from "../../application/services/RecursosHuman
 import { EmailService } from "../../application/services/Email.serviceInstance";
 import bcrypt from "bcrypt";
 
-// Almacenamiento temporal de códigos de reseteo (En memoria para simplicidad)
-const resetCodes = new Map<string, string>();
+// Almacenamiento temporal de códigos de reseteo con expiración (10 minutos)
+interface ResetCodeEntry {
+    code: string;
+    expiresAt: number;
+}
+
+const resetCodes = new Map<string, ResetCodeEntry>();
+const RESET_CODE_TTL_MS = 10 * 60 * 1000; // 10 minutos
 
 export async function loginAdmin(req: Request, res: Response): Promise<void> {
     try {
         const { correo, password, role } = req.body
         const authData = await loginUseCase(correo, password, role)
-        if (!authData) throw new Error("Failded auth" + correo)
+        if (!authData) throw new Error("Failed auth " + correo)
         res.status(200).json(authData)
     } catch (err) {
-        res.status(500).send({ message: "Internal server error" + err })
+        res.status(500).send({ message: "Internal server error: " + err })
     }
 }
 
@@ -37,9 +43,12 @@ export async function forgotPassword(req: Request, res: Response): Promise<void>
             return;
         }
 
-        // Generar código de 6 dígitos
+        // Generar código de 6 dígitos con tiempo de expiración
         const code = Math.floor(100000 + Math.random() * 900000).toString();
-        resetCodes.set(correo, code);
+        resetCodes.set(correo, {
+            code,
+            expiresAt: Date.now() + RESET_CODE_TTL_MS
+        });
 
         // Enviar email
         const subject = "Código de Recuperación de Contraseña - Fundesoemco";
@@ -50,7 +59,7 @@ export async function forgotPassword(req: Request, res: Response): Promise<void>
                 <div style="font-size: 24px; font-weight: bold; padding: 10px; background: #f4f4f4; text-align: center; border-radius: 5px; margin: 20px 0;">
                     ${code}
                 </div>
-                <p>Este código es válido por tiempo limitado. Si no solicitaste esto, ignora este mensaje.</p>
+                <p>Este código es válido por <strong>10 minutos</strong>. Si no solicitaste esto, ignora este mensaje.</p>
                 <br>
                 <p>Fundesoemco Software Team</p>
             </div>
@@ -73,9 +82,20 @@ export async function resetPassword(req: Request, res: Response): Promise<void> 
             return;
         }
 
-        const storedCode = resetCodes.get(correo);
-        if (!storedCode || storedCode !== code) {
+        const entry = resetCodes.get(correo);
+        if (!entry) {
             res.status(400).json({ message: "Código inválido o expirado" });
+            return;
+        }
+
+        if (Date.now() > entry.expiresAt) {
+            resetCodes.delete(correo);
+            res.status(400).json({ message: "El código ha expirado. Por favor solicita uno nuevo." });
+            return;
+        }
+
+        if (entry.code !== code) {
+            res.status(400).json({ message: "Código incorrecto" });
             return;
         }
 

@@ -1,7 +1,7 @@
 import { createEmployeeUseCase } from "../../application/usecases/Employee/createEmployeeUseCase";
 import { getAllEmployeeUseCase } from "../../application/usecases/Employee/getAllEmployeeUseCase";
 import { deleteEmployeeUseCase } from "../../application/usecases/Employee/deleteEmployeeUseCase";
-import { editEmployeeUseCase } from "../../application/usecases/Employee/editEmplyeeUseCase";
+import { editEmployeeUseCase } from "../../application/usecases/Employee/editEmployeeUseCase";
 import { attendanceEmployeeUseCase } from "../../application/usecases/Employee/attendanceEmployeeUseCase";
 import { getAllEmployeeAttendanceUseCase } from "../../application/usecases/Employee/getAllEmployeeAttendanceUseCase";
 import { Request, Response } from "express";

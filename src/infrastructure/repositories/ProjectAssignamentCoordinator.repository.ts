@@ -28,4 +28,9 @@ export class ProjectAssignamentCoordinatorRepository implements ProjectAssigname
             a.getDataValue('idCoordinator'),
         ));
     }
+
+    async vaciarCoordinadoresDeProyecto(idProject: string): Promise<boolean> {
+        const deleted = await ProjectAssignamentCoordinatorModel.destroy({ where: { idProject } });
+        return deleted > 0;
+    }
 }

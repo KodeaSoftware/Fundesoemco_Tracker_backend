@@ -1,5 +1,5 @@
 import { EmployeeContract } from "../../domain/models/EmployeeContract";
-import { EmployeeContractPort } from "../../domain/ports/EmployeeCotractPort";
+import { EmployeeContractPort } from "../../domain/ports/EmployeeContractPort";
 import { EmploymentContractRepository } from "../repositories/EmploymentContract.repository";
 
 export class EmploymentContractAdapter implements EmployeeContractPort {
@@ -16,5 +16,13 @@ export class EmploymentContractAdapter implements EmployeeContractPort {
 
     async obtenerTipoContratoPorId(id: number): Promise<EmployeeContract | null> {
         return await this.repository.obtenerTipoContratoPorId(id);
+    }
+
+    async editarContrato(contract: EmployeeContract): Promise<boolean> {
+        return await this.repository.editarContrato(contract);
+    }
+
+    async eliminarContrato(id: number): Promise<boolean> {
+        return await this.repository.eliminarContrato(id);
     }
 }

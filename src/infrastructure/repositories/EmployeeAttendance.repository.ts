@@ -149,4 +149,17 @@ export class EmployeeAttendanceRepository {
             throw error;
         }
     }
+
+    async eliminarAsistenciasPorProyecto(project_id: string): Promise<boolean> {
+        try {
+            const rowsAffected = await EmployeeAttendanceModel.destroy({
+                where: { project_id: project_id }
+            });
+
+            return rowsAffected > 0;
+        } catch (error) {
+            console.error(`Error al eliminar asistencias del proyecto ${project_id}:`, error);
+            throw error;
+        }
+    }
 }

@@ -18,4 +18,8 @@ export class ProjectAssignamentCoordinatorAdapter implements ProjectAssignamentC
     listarCoordinatorDeProyecto(idPorject: string): Promise<ProjectAssignamentCoordinator[]> {
         return this.repository.listarCoordinatorDeProyecto(idPorject)
     }
+
+    vaciarCoordinadoresDeProyecto(idProject: string): Promise<boolean> {
+        return this.repository.vaciarCoordinadoresDeProyecto(idProject);
+    }
 }

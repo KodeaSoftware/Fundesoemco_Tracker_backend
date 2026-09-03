@@ -9,4 +9,5 @@ export interface ProjectAssignamentCoordinatorPort {
     asignarProyecto(ProjectAssignament: ProjectAssignamentCoordinator): Promise<boolean>
     eliminarCoordinatorDeProyecto(idCoordinator: string): Promise<boolean>
     listarCoordinatorDeProyecto(idPorject: string): Promise<ProjectAssignamentCoordinator[]>
+    vaciarCoordinadoresDeProyecto(idProject: string): Promise<boolean>
 }
