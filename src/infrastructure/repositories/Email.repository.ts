@@ -19,7 +19,7 @@ export class EmailRepository implements EmailPort {
 
             // Enviar el correo usando Resend API
             const { data, error } = await this.resend.emails.send({
-                from: 'Fundesoemco <onboarding@resend.dev>', // Usando dominio por defecto de Resend
+                from: process.env.EMAIL_FROM || 'Fundesoemco <notificaciones@tukicode.site>',
                 to: [email.correo],
                 subject: 'Credenciales de Acceso - Fundesoemco Attendance',
                 text: mensaje,
@@ -76,7 +76,7 @@ export class EmailRepository implements EmailPort {
     async enviarEmail(to: string, subject: string, html: string): Promise<boolean> {
         try {
             const { data, error } = await this.resend.emails.send({
-                from: 'Fundesoemco <onboarding@resend.dev>',
+                from: process.env.EMAIL_FROM || 'Fundesoemco <notificaciones@tukicode.site>',
                 to: [to],
                 subject: subject,
                 html: html
