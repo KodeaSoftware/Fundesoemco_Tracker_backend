@@ -3,27 +3,29 @@ import { ProjectAssignamentService } from "../../services/ProjectAssignament.ser
 import { EmployeeAttendanceService } from "../../services/EmployeeAttendance.serviceInstance"
 
 export async function deleteEmployeeUseCase(id: string) {
-
-    // Primero eliminar las relaciones del empleado con los proyectos
-    const eliminarRelaciones = await ProjectAssignamentService.eliminarEmpleadoDeProyecto(id)
-    if (!eliminarRelaciones) {
-        console.warn(`No se encontraron relaciones de proyectos para el empleado ${id}`)
+    // 1. Eliminar las relaciones del empleado con los proyectos
+    try {
+        await ProjectAssignamentService.eliminarEmpleadoDeProyecto(id);
+    } catch (e) {
+        console.warn(`Aviso al eliminar asignaciones de proyecto del empleado ${id}:`, e);
     }
 
-    // Luego eliminar las asistencias
-    const eliminarAsistencias = await EmployeeAttendanceService.eliminarAsistenciasPorEmpleado(id)
-    if (!eliminarAsistencias) {
-        console.warn(`No se encontraron asistencias para el empleado ${id}`)
+    // 2. Eliminar las asistencias del empleado
+    try {
+        await EmployeeAttendanceService.eliminarAsistenciasPorEmpleado(id);
+    } catch (e) {
+        console.warn(`Aviso al eliminar asistencias del empleado ${id}:`, e);
     }
 
-    // Luego eliminar el empleado
-    const eliminate = await EmployeeService.eliminarEmpleado(id)
-    if (!eliminate) throw new Error(`Error al eliminar ${id}`)
+    // 3. Eliminar el empleado
+    const eliminate = await EmployeeService.eliminarEmpleado(id);
+    if (!eliminate) {
+        throw new Error(`No se encontró o no se pudo eliminar el empleado con ID: ${id}`);
+    }
 
     return {
         state: "Deleted",
         id: id,
-        message: "Empleado y sus relaciones con proyectos eliminados correctamente"
-    }
+        message: "Empleado y sus relaciones eliminados correctamente"
+    };
 }
-
