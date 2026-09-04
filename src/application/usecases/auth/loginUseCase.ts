@@ -20,7 +20,8 @@ export async function loginUseCase(correo: string, password: string, role: strin
             token: token,
             status: true,
             correo: correo,
-            role: role
+            role: role,
+            nombre: coordinador.nombre
         }
     }
 
@@ -40,7 +41,8 @@ export async function loginUseCase(correo: string, password: string, role: strin
             token: token,
             status: true,
             correo: correo,
-            role: role
+            role: role,
+            nombre: rrhh.nombre
         }
     }
 

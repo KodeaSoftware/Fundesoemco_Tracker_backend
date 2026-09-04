@@ -125,3 +125,38 @@ export async function resetPassword(req: Request, res: Response): Promise<void> 
         res.status(500).json({ message: "Error interno del servidor" });
     }
 }
+
+export async function getMe(req: Request, res: Response): Promise<void> {
+    try {
+        const correo = (req.query.correo as string) || (req.headers['x-user-email'] as string);
+        if (!correo) {
+            res.status(400).json({ message: "El correo es requerido" });
+            return;
+        }
+
+        const coordinador = await CoordinatorService.buscarPorEmail(correo);
+        if (coordinador) {
+            res.status(200).json({
+                nombre: coordinador.nombre,
+                role: "coordinador",
+                correo: coordinador.correo
+            });
+            return;
+        }
+
+        const rrhh = await RecursosHumanosService.buscarPorEmail(correo);
+        if (rrhh) {
+            res.status(200).json({
+                nombre: rrhh.nombre,
+                role: "rrhh",
+                correo: rrhh.correo
+            });
+            return;
+        }
+
+        res.status(404).json({ message: "Usuario no encontrado" });
+    } catch (err) {
+        console.error("Error en getMe:", err);
+        res.status(500).json({ message: "Error interno del servidor" });
+    }
+}
