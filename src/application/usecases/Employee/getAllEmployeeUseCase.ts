@@ -10,8 +10,9 @@ export async function getAllEmployeeUseCase() {
     const employeeListWithProjectNames = await Promise.all(
         employeeList.map(async (employee) => {
             // Obtener los proyectos con IDs y nombres para cada empleado
+            const projectList = Array.isArray(employee.proyecto) ? employee.proyecto : (employee.proyecto ? [employee.proyecto] : []);
             const projectsWithDetails = await Promise.all(
-                employee.proyecto.map(async (projectId) => {
+                projectList.map(async (projectId) => {
                     const project = await ProjectService.traerProjectPorId(projectId)
                     return {
                         id: projectId,

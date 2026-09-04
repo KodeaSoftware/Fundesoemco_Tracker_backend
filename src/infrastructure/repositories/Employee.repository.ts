@@ -31,6 +31,10 @@ export class EmployeeRepository implements EmployeePort {
 
     async crearEmpleado(empleado: Employee): Promise<Employee> {
         try {
+            const proyectos = Array.isArray(empleado.proyecto)
+                ? empleado.proyecto
+                : (empleado.proyecto ? [empleado.proyecto] : []);
+
             const empleadoCreado = await EmployeeModel.create({
                 id: empleado.id,
                 cedula: empleado.cedula,
@@ -38,7 +42,7 @@ export class EmployeeRepository implements EmployeePort {
                 departamento: empleado.departamento,
                 cargo: empleado.cargo,
                 contrato: empleado.contrato,
-                proyecto: empleado.proyecto,
+                proyecto: proyectos,
                 telefono: empleado.telefono
             });
 
@@ -65,6 +69,10 @@ export class EmployeeRepository implements EmployeePort {
     }
 
     async editarEmpleado(empleado: Employee): Promise<boolean> {
+        const proyectos = Array.isArray(empleado.proyecto)
+            ? empleado.proyecto
+            : (empleado.proyecto ? [empleado.proyecto] : []);
+
         const [updated] = await EmployeeModel.update({
             cedula: empleado.cedula,
             nombre: empleado.nombre,
@@ -72,7 +80,7 @@ export class EmployeeRepository implements EmployeePort {
             cargo: empleado.cargo,
             telefono: empleado.telefono,
             contrato: empleado.contrato,
-            proyecto: empleado.proyecto,
+            proyecto: proyectos,
         }, {
             where: { id: empleado.id },
         });
